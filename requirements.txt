@@ -1,3 +1,4 @@
 ipykernel
 owlready2
 graphviz
+requests

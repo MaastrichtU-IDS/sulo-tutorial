@@ -2,12 +2,15 @@ from owlready2 import *
 from graphviz import Digraph
 from contextlib import contextmanager
 from contextlib import redirect_stdout, redirect_stderr
+import os
 import re
+import types as _types
 
 @contextmanager
 def editing(onto):
     with onto:
         yield
+    os.makedirs("build", exist_ok=True)
     onto.save(file="build/latest.ttl", format="turtle")
 
 def classify():
@@ -16,10 +19,6 @@ def classify():
 
 def show_subclasses(cls):
     return [c for c in cls.subclasses()]
-
-def add_disjoint(*classes):
-    AllDisjoint([*classes])
-
 
 
 def get_color_tree(ontos):
@@ -103,18 +102,96 @@ def onto_property_map(onto):
 def safe_call_reasoner(onto):
     try:
         with open('/dev/null', 'w') as f, redirect_stdout(f), redirect_stderr(f):
-            with onto:
-                sync_reasoner(ignore_unsupported_datatypes=True)
-            
-            return {"ok": True, "inconsistent": list(onto.inconsistent_classes())}
+            sync_reasoner(ignore_unsupported_datatypes=True)     
+            return {
+                "ok": True, 
+                "inconsistent": list(onto.inconsistent_classes()),
+            }
     
     except Exception as e:
-        # anything else
         msg = str(e)
         m = re.search(r"Exception:\s*(.*)", msg)
-        if m:
-            error = m.group(1).strip()
-        return {"ok": False, "error": error, "inconsistent": None}
+        error = m.group(1).strip() if m else msg
+        return {
+            "ok": False,
+            "error": error,
+            "inconsistent": None,
+        }
+
+def search_bioportal(term, ontology_acronym, api_key, pagesize=10):
+    """
+    Search BioPortal for a term in a specific ontology.
+
+    Returns a list of dicts with keys: iri, label, definition, ontology.
+    Requires a BioPortal API key from https://bioportal.bioontology.org/account
+    """
+    import requests
+    url = "https://data.bioontology.org/search"
+    params = {
+        "q": term,
+        "ontologies": ontology_acronym,
+        "apikey": api_key,
+        "pagesize": pagesize,
+        "include": "prefLabel,definition,synonym",
+    }
+    resp = requests.get(url, params=params, timeout=10)
+    resp.raise_for_status()
+    data = resp.json()
+    results = []
+    for item in data.get("collection", []):
+        defn = item.get("definition")
+        results.append({
+            "iri": item.get("@id"),
+            "label": item.get("prefLabel"),
+            "definition": defn[0] if defn else None,
+            "ontology": ontology_acronym,
+        })
+    return results
+
+
+def mireot_import(target_onto, term_iri, label, parent=None, source_ontology_iri=None, definition=None):
+    """
+    MIREOT-import an external term into target_onto.
+
+    Creates a stub class at the external IRI with minimal annotations:
+    rdfs:label, rdfs:comment (definition), rdfs:isDefinedBy (source ontology).
+    If the IRI is already loaded in the world it is returned as-is.
+
+    Parameters
+    ----------
+    target_onto       : owlready2 Ontology to import into
+    term_iri          : str  — full IRI of the external term
+    label             : str  — human-readable label (rdfs:label)
+    parent            : owlready2 class  — direct parent class (default: owl:Thing)
+    source_ontology_iri : str  — IRI of the source ontology (rdfs:isDefinedBy)
+    definition        : str  — textual definition (rdfs:comment)
+    """
+    # Return existing class if already in the world
+    existing = IRIS.get(term_iri)
+    if existing is not None:
+        return existing
+
+    # Split the IRI into a namespace base and a local name
+    if "#" in term_iri:
+        ns_base, local = term_iri.rsplit("#", 1)
+        ns_base += "#"
+    else:
+        ns_base, local = term_iri.rsplit("/", 1)
+        ns_base += "/"
+
+    ns = target_onto.get_namespace(ns_base)
+    parent_cls = parent if parent is not None else Thing
+
+    with target_onto:
+        stub = _types.new_class(local, (parent_cls,), kwds={"namespace": ns})
+        stub.label = [label]
+        if definition:
+            stub.comment = [definition]
+        if source_ontology_iri:
+            stub.isDefinedBy = [source_ontology_iri]
+
+    return stub
+
 
 def in_ancestors(onto, cls, ancestor):
     res = safe_call_reasoner(onto)
