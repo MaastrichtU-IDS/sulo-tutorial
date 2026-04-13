@@ -6,6 +6,52 @@ The notebooks build on the foundation established by the classic Manchester Pizz
 
 ---
 
+## Running the Tutorials
+
+### Option 1 — Docker (recommended)
+
+No local Python or Java installation required. The container includes all dependencies: Python, owlready2, graphviz, and a Java runtime for the HermiT reasoner.
+
+```bash
+# Build the image and start the Jupyter server (first run ~2 min)
+docker compose up --build
+
+# Subsequent runs
+docker compose up
+```
+
+Open **http://localhost:8888** in your browser. The project folder is live-mounted, so all notebook changes and saved ontology files are written directly to your local disk.
+
+To connect VS Code to the running server instead of using the browser:
+1. Open the Command Palette (`Ctrl+Shift+P`)
+2. Select **"Select Jupyter Server"** → **"Existing"**
+3. Enter `http://localhost:8888`
+
+To stop the server:
+```bash
+docker compose down
+```
+
+### Option 2 — Local Python environment
+
+Requires Python 3.9+ and a Java runtime (for HermiT reasoning).
+
+```bash
+# Create and activate a virtual environment
+python -m venv .venv
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Start Jupyter
+jupyter notebook
+```
+
+Open `notebooks/00-SULO-tutorial-setup.ipynb` to verify the environment, then work through the notebooks in the `notebooks/pizza/` folder in order.
+
+---
+
 ## Prerequisites
 
 Start with the setup notebook at the repository root before opening any of these:
