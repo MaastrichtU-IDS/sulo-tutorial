@@ -1,2 +1,8 @@
 .venv
 *.pyc
+.ipynb_checkpoints
+__pycache__
+.DS_Store
+.claude
+dist/
+catalog-v001.xml
