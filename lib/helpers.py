@@ -102,7 +102,7 @@ def onto_property_map(onto):
 def safe_call_reasoner(onto):
     try:
         with open('/dev/null', 'w') as f, redirect_stdout(f), redirect_stderr(f):
-            sync_reasoner(ignore_unsupported_datatypes=True)     
+            sync_reasoner(ignore_unsupported_datatypes=True)
             return {
                 "ok": True, 
                 "inconsistent": list(onto.inconsistent_classes()),
@@ -191,6 +191,37 @@ def mireot_import(target_onto, term_iri, label, parent=None, source_ontology_iri
             stub.isDefinedBy = [source_ontology_iri]
 
     return stub
+
+
+def _onto_label(entity):
+    lbl = entity.label.en.first() if entity.label.en else (entity.label.first() if entity.label else None)
+    return lbl
+
+def _onto_comment(entity):
+    cmt = entity.comment.en.first() if entity.comment.en else (entity.comment.first() if entity.comment else None)
+    return " ".join(cmt.split()) if cmt else None
+
+def build_tree(node, children_fn, depth=0, visited=None, lines=None):
+    """Render an ontology hierarchy as an indented Markdown list."""
+    if visited is None:
+        visited = set()
+    if lines is None:
+        lines = []
+    if node in visited:
+        return lines
+    visited.add(node)
+
+    indent = "  " * depth
+    label = _onto_label(node)
+    comment = _onto_comment(node)
+
+    label_str = f" — {label}" if label and label.lower() != node.name.lower() else ""
+    comment_str = f": {comment}" if comment else ""
+    lines.append(f"{indent}- **{node.name}**{label_str}{comment_str}")
+
+    for child in sorted(children_fn(node), key=lambda n: n.name):
+        build_tree(child, children_fn, depth + 1, visited, lines)
+    return lines
 
 
 def in_ancestors(onto, cls, ancestor):
