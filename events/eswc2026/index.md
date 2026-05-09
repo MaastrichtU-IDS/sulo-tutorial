@@ -28,14 +28,14 @@ projects with automated versioning, documentation, and quality assessment.
 SULO patterns to motivate OWL axioms and ontology design decisions.
 * Present complementary tooling ecosystems, including Protégé and
 owlready2, for interactive and programmatic ontology development and reasoning.
-* Extend the legendary OWL Pizza tutorial5 with a diversity of representational
+* Build from the legendary OWL Pizza tutorial with a diversity of representational
 problems (e.g. class/individual, identity, equivalence and disjointness,
 spatial (containment and mereology) and processual (transformational,
 developmental), qualities, quantities, roles and information objects through
 concrete examples such as the classification of pizzas based on their toppings
 and their qualitative and quantitative spicyness, the loss and gain of identity
 in the making of dough, the roles played by individuals and devices in the
-making and delivering of pizzas (SULO Pizza Tutorial)6.
+making and delivering of pizzas (SULO Pizza Tutorial).
 * Empower participants to adopt reproducible, maintainable, and FAIR
 engineering practice for their own ontology projects.
 
@@ -43,8 +43,7 @@ engineering practice for their own ontology projects.
 The tutorial aims to balance theory with hands-on ontology engineering over the pizza domain. 
 The tutorial is pitched at a basic to intermediate level; no
 prior knowledge of upper level ontologies or OWL is required. Attendees that
-have knowledge of python may choose to implement the tutorial with python,
-otherwise attendees will be expected to run Protege.
+have knowledge of python may choose to implement the tutorial with python.
 
 ## Learning goals
 The learning goals of the tutorial are twofold:
@@ -56,23 +55,19 @@ The learning goals of the tutorial are twofold:
 
 2. Publish and maintain ontology projects following FAIR practices
 * Initialize a new FAIR ontology project using OntoStart, including metadata files, documentation structure, and CI-based quality checks.
-* Use Protégé 7 to build, visualize, and test ontology class structures.
-* Use owlready2 8 in Python to construct, manipulate, and reason over ontologies programmatically.
-* interpret FOOPS! [2] FAIRness reports and identify steps to improve ontology FAIRness.
+* Use owlready2 in Python to construct, manipulate, and reason over ontologies programmatically.
+* interpret FOOPS! FAIRness reports and identify steps to improve ontology FAIRness.
 
 
 
 ### 🕒 Schedule (May 10/11 2026)
-A half-day tutorial (4h) with two core components
-*  SULO-based knowledge representation
-*  Hands-on implementation
-
+A half-day tutorial (3h) structured as a series of [Notebooks](https://github.com/MaastrichtU-IDS/sulo-tutorial/blob/main/notebooks/pizza/README.md).
 
 | Activity | Duration | Description | OWL constructs introduced |
 | :--- | :--- | :--- | :--- | 
 | Tutorial overview | 5 min | Introduction to the tutorial | |
 | What is an ontology? | 10 min | Overview of what ontologies are, and how they differ from terminologies, vocabularies, and schemas | |
-| SULO quick overview | 10 min | Brief overview of classes and relations, the SULO postcard as a reference material | |
+| SULO in a nutshell | 10 min | Brief overview of classes and relations, the SULO postcard as a reference material | |
 | OWL Declarations | 15 min | Declaring classes and individuals within an OWL ontology, importing SULO | Entity Declarations (Class, Object and Data Property, Individual), Axioms (Class, Subclass, Disjoint), Annotation Properties, OWL Imports  |
 | Spatial objects & their composition | 20 min | Describing necessary and/or sufficient conditions for class membership, focusing on pizzas and their parts | Class Expression Exioms: Class Expressions, Propositional Connectives, Existential and Universal Quantification, Object Property Cardinality Restrictions (minimum, maximum, exact), Object Subproperties ( sub, inverse, domain, range, Functional, Transitive), Complex role inclusions |
 | Qualities | 15 min | Qualities as intrinsic characteristics, focusing on the spicyness of a pizza and its ingredients | DisjointUnion |
@@ -98,12 +93,3 @@ EU and US research initiatives, and has extensive experience teaching ontology
 engineering, knowledge graphs, and Semantic Web technologies at undergruadate
 and graduate level. He is a co-creator of SULO and created the ontostart
 FAIR ontology template project.
-
-[**Remzi Celebi**](https://www.maastrichtuniversity.nl/r-celebi) is an Assistant Professor in the Department of Advanced Computing
-Sciences at Maastricht University. His research focuses on semantic data
-integration, biomedical ontologies, knowledge graphs, and machine learning methods
-for health applications. Remzi is an experienced instructor and teaches
-courses on semantic web, knowledge graphs, machine learning, and FAIR data
-stewardship. He regularly supervises MSc and PhD students in ontology engineering,
-data integration, and representation learning.
-
