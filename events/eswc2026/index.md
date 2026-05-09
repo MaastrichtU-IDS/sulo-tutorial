@@ -8,15 +8,15 @@ description: An ESWC 2026 Tutorial
 Designing high-quality ontologies that are Findable, Accessible, Interoperable, and Reusable (FAIR) remains a key challenge in
 practice. This tutorial introduces a fully integrated workflow for principled ontology engineering based on the Simplified Upper Level Ontology
 (SULO), a lightweight upper-level ontology designed to guide conceptual representation. Through a hands-on, end-to-end examples, participants
-will (re)conceptualize, formalize, and automatically reason over the pizza domain using SULO design patterns in a notebook setting. Participants will use the OntoStart platform to
-publish their own ontology in a FAIR manner. The tutorial is aimed at students, researchers, and practitioners building domain ontologies. Participants will
-learn methodology and leave with a practical skills to bootstrap their own FAIR ontology projects.
+will (re)conceptualize, formalize, and automatically reason over the pizza domain using SULO design patterns in a notebook setting. Participants will use the OntoStart platform to publish their own ontology in a FAIR manner. The tutorial is aimed at students, researchers, and practitioners building domain ontologies. Participants will learn methodology and leave with a practical skills to bootstrap their own FAIR ontology projects.
 
 
 ## Objectives
 This tutorial addresses a persistent gap in applied ontology: the absence of accessible,
 end-to-end workflows for producing FAIR, modular, reusable ontologies
-with high conceptual and engineering quality. The tutorial objectives are to:
+with high conceptual and engineering quality. 
+
+The tutorial objectives are to:
 * Introduce a coherent, end-to-end workflow for engineering FAIR and
 principled OWL ontologies, from conceptualization to publication.
 * Demonstrate the value of the Simplified Upper Level Ontology ([SULO](https://w3id.org/sulo/github)) as
