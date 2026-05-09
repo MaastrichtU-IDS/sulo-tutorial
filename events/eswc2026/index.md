@@ -61,26 +61,23 @@ The learning goals of the tutorial are twofold:
 
 
 ### 🕒 Schedule (May 10/11 2026)
-A half-day tutorial (3h) structured as a series of [Notebooks](https://github.com/MaastrichtU-IDS/sulo-tutorial/blob/main/notebooks/pizza/README.md).
 
-| Activity | Duration | Description | OWL constructs introduced |
-| :--- | :--- | :--- | :--- | 
-| Tutorial overview | 5 min | Introduction to the tutorial | |
-| What is an ontology? | 10 min | Overview of what ontologies are, and how they differ from terminologies, vocabularies, and schemas | |
-| SULO in a nutshell | 10 min | Brief overview of classes and relations, the SULO postcard as a reference material | |
-| OWL Declarations | 15 min | Declaring classes and individuals within an OWL ontology, importing SULO | Entity Declarations (Class, Object and Data Property, Individual), Axioms (Class, Subclass, Disjoint), Annotation Properties, OWL Imports  |
-| Spatial objects & their composition | 20 min | Describing necessary and/or sufficient conditions for class membership, focusing on pizzas and their parts | Class Expression Exioms: Class Expressions, Propositional Connectives, Existential and Universal Quantification, Object Property Cardinality Restrictions (minimum, maximum, exact), Object Subproperties ( sub, inverse, domain, range, Functional, Transitive), Complex role inclusions |
-| Qualities | 15 min | Qualities as intrinsic characteristics, focusing on the spicyness of a pizza and its ingredients | DisjointUnion |
-| Quantities | 15 min | Quantities as associated features, focusing on a numeric representation of the spicyness quality of an ingredient | Functional data property, Data Property Cardinality Restrictions, Datatype Restriction | 
-| Processes, process parts, and roles | 30 min | Processes, their parts, participants and their roles, development (maintainance of identity) and transformation (entities are created and destroyed), focusing on making of the pizza dough and crust | Individuals, Individual equality and inequality |
-| Information Entities | 15 min | The receipt obtained after having paid for the pizza | | |
-| break | 15 min | || 
-| Time | 15 min | Time as a measured quantity that can be associated to processes or objects, and temporal ordering, focusing on when a pizza order was received, the pizza baked, and when it was delivered | |
-| Spatial containment and movement | 15 min | Differentiating spatial containment from parthood, movement of objects within a process, focusing on the addition and removal of the pizza in the pizza delivery box | |
-| Q&A | 30 min | Discussion of modeling approaches within and beyond the tutorial | |
-| OntoStart Deployment | 15 min | Publishing FAIR ontologies with documentation through Github actions | Ontology IRI, OWL Versioning, Ontology Annotations, OWL Syntaxes |
-| FAIRness assessment | 10 min | Examining the output of a FOOPS! fairness assessment report | |
-| Wrap up | 5 min | Q&A and wrap up | |
+A half-day tutorial (4h) structured as a series of [Notebooks](https://github.com/MaastrichtU-IDS/sulo-tutorial/blob/main/notebooks/pizza/README.md). The [introductory slide deck](sulo-tutorial-intro.pptx) covers the goals, methodology, and key tools.
+
+| Duration | Activity | Content | Notebook |
+| :--- | :--- | :--- | :--- |
+| 10 min | Tutorial Overview  | Introduction, goals, and methodology | [Intro presentation](sulo-tutorial-intro.pptx) |
+| 10 min | Reference materials| OWL, SULO, and owlready2 | [NB 00](https://github.com/MaastrichtU-IDS/sulo-tutorial/blob/main/notebooks/pizza/00-SULO-tutorial-setup.ipynb) · [OWL Primer](https://github.com/MaastrichtU-IDS/sulo-tutorial/blob/main/notebooks/pizza/00-OWL-primer-reference.ipynb) · [owlready2 Primer](https://github.com/MaastrichtU-IDS/sulo-tutorial/blob/main/notebooks/pizza/00-owlready2-primer.ipynb) |
+| 30 min | Spatial objects & composition | `hasPart`, `hasDirectPart`, cardinality restrictions, Open World Assumption | [NB 01](https://github.com/MaastrichtU-IDS/sulo-tutorial/blob/main/notebooks/pizza/01-SULO-tutorial-spatial-objects.ipynb) |
+| 15 min | Qualities & quantities | `hasFeature`, `refersTo`, constrained datatypes | [NB 02](https://github.com/MaastrichtU-IDS/sulo-tutorial/blob/main/notebooks/pizza/02-SULO-tutorial-qualities-quantities.ipynb) |
+| 25 min | Processes I | Transformation vs developmental processes; participation roles (PRO pattern) | [NB 03](https://github.com/MaastrichtU-IDS/sulo-tutorial/blob/main/notebooks/pizza/03-SULO-tutorial-processes.ipynb) |
+| 30 min | **Break** | | |
+| 15 min | Processes II | Process parts, `precedes`, temporal ordering | [NB 03](https://github.com/MaastrichtU-IDS/sulo-tutorial/blob/main/notebooks/pizza/03-SULO-tutorial-processes.ipynb) |
+| 15 min | Information entities | Orders, receipts, individual identity, `owl:sameAs` | [NB 04](https://github.com/MaastrichtU-IDS/sulo-tutorial/blob/main/notebooks/pizza/04-SULO-tutorial-information-entities.ipynb) |
+| 15 min | Time | Time instants, durations, constrained durations, timelines | [NB 05](https://github.com/MaastrichtU-IDS/sulo-tutorial/blob/main/notebooks/pizza/05-SULO-tutorial-time.ipynb) |
+| 15 min | Spatial containment | `isIn` vs `hasPart`, containment transitivity | [NB 06](https://github.com/MaastrichtU-IDS/sulo-tutorial/blob/main/notebooks/pizza/06-SULO-tutorial-spatial-containment.ipynb) |
+| 20 min | OntoStart & FAIRness | Metadata, OWL export, GitHub CI, FOOPS! assessment | [NB 07](https://github.com/MaastrichtU-IDS/sulo-tutorial/blob/main/notebooks/pizza/07-SULO-tutorial-deployment.ipynb) |
+| 10 min | Q&A + wrap-up | Modelling discussion and open questions | |
 
 
 
@@ -90,6 +87,11 @@ University and co-founder of the Department of Advanced Computing
 Sciences. He is a leading researcher in biomedical ontologies, knowledge graphs,
 and Semantic Web technologies. He co-founded the FAIR principles, leads major
 EU and US research initiatives, and has extensive experience teaching ontology
-engineering, knowledge graphs, and Semantic Web technologies at undergruadate
-and graduate level. He is a co-creator of SULO and created the ontostart
+engineering, knowledge graphs, and Semantic Web technologies at undergraduate
+and graduate level. He is a co-creator of SULO and created the OntoStart
 FAIR ontology template project.
+
+[**Chang Sun**](https://www.maastrichtuniversity.nl/chang.sun) is an Assistant Professor in the Department of Advanced Computing
+Sciences at Maastricht University. Her research focuses on federated learning,
+privacy-preserving data analysis, synthetic health data, and knowledge representation for health data.
+She has extensive experience teaching data science and artificial intelligence.
