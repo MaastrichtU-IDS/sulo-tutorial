@@ -6,6 +6,46 @@ The notebooks build on the foundation established by the classic Manchester Pizz
 
 ---
 
+## Getting the Files
+
+You need two repositories: **sulo-tutorial** (the notebooks) and **ontostart** (the FAIR ontology project template used in NB07).
+
+### 1. Install Git
+
+- **Windows**: download and install [Git for Windows](https://git-scm.com/download/win); use the default options
+- **macOS**: run `git --version` in Terminal — if not present, macOS will prompt you to install Xcode Command Line Tools
+- **Linux**: `sudo apt install git` (Debian/Ubuntu) or `sudo dnf install git` (Fedora)
+
+Verify the install:
+```bash
+git --version
+```
+
+### 2. Clone the tutorial repository
+
+```bash
+git clone https://github.com/MaastrichtU-IDS/sulo-tutorial.git
+cd sulo-tutorial
+```
+
+### 3. Clone the OntoStart template
+
+The OntoStart template provides the scaffolding for publishing a FAIR ontology with automated versioning and CI. You will use it in NB07.
+
+```bash
+# From wherever you keep projects (not inside sulo-tutorial)
+git clone https://github.com/micheldumontier/ontostart.git
+```
+
+To start your own FAIR ontology project, create a new branch in your fork of ontostart:
+
+```bash
+cd ontostart
+git checkout -b my-ontology
+```
+
+---
+
 ## Running the Tutorials
 
 ### Option 1 — Docker (recommended)
@@ -48,23 +88,31 @@ pip install -r requirements.txt
 jupyter notebook
 ```
 
-Open `notebooks/00-SULO-tutorial-setup.ipynb` to verify the environment, then work through the notebooks in the `notebooks/pizza/` folder in order.
-
----
-
-## Prerequisites
-
-Start with the setup notebook at the repository root before opening any of these:
-
-| Notebook | What it covers |
-|---|---|
-| [`../00-SULO-tutorial-setup.ipynb`](../00-SULO-tutorial-setup.ipynb) | Install dependencies, load SULO from the web, visualise the SULO class hierarchy and property map, run the HermiT reasoner on SULO |
+Open `notebooks/pizza/00-SULO-tutorial-setup.ipynb` to verify the environment, then work through the remaining notebooks in order.
 
 ---
 
 ## Notebook Sequence
 
-The notebooks must be run **in order**. Each one loads the ontology saved by the previous one (`pizza-NN.owl`) and writes `pizza-NN+1.owl` plus `dist/pizza-NN+1.{owl,ttl}`.
+The notebooks must be run **in order**. Start with the three `00-` preparation notebooks, then work through 01–07. Each numbered notebook loads the ontology saved by the previous one (`pizza-NN.owl`) and writes `pizza-NN+1.owl`.
+
+### [00 — Environment Setup](00-SULO-tutorial-setup.ipynb)
+
+**You will learn:** How to set up the Python environment, load SULO from the web, visualise the SULO class and property hierarchy, and run the HermiT reasoner on SULO to verify that everything works end to end.
+
+---
+
+### [00 — OWL Primer (reference)](00-OWL-primer-reference.ipynb)
+
+**You will learn:** Core OWL 2 concepts — classes, individuals, properties, restrictions, and axioms — illustrated with static examples. This is a reference notebook; no code is executed. Use it alongside the numbered notebooks as a quick look-up for OWL syntax and semantics.
+
+---
+
+### [00 — OWL Primer with owlready2](00-owlready2-primer.ipynb)
+
+**You will learn:** How to translate every major OWL construct into `owlready2` Python calls. Covers class declarations, subclass axioms, existential/universal restrictions, cardinality constraints, defined classes, and data properties — all in the pizza domain using SULO properties. Run this once before notebook 01 to build confidence with the owlready2 API.
+
+---
 
 ### [01 — Spatial Objects & Composition](01-SULO-tutorial-spatial-objects.ipynb)
 
@@ -88,14 +136,12 @@ Spiciness is modelled as a `Quality`. The Scoville Heat Unit is introduced as a 
 
 **You will learn:** How to represent processes with typed participants, how to distinguish identity-preserving from identity-destroying change, and how to assert sequential ordering of processes.
 
-This notebook introduces **sulo-ext**, a small extension ontology that adds process sub-types and role classes not present in SULO core. The dough-making process is modelled twice: once linking the process directly to ingredient classes, and once using **role reification** — each ingredient plays a typed role (`TargetRole`, `OutputRole`, `AgentRole`) that precisely characterises *how* it participates.
+This notebook introduces **PRO** (`https://w3id.org/ontostart/pro/`), a small participation-role ontology that adds process sub-types and a role taxonomy not present in SULO core. The dough-making process is modelled twice: once linking the process directly to ingredient classes, and once using the **Process-Role-Object (PRO) pattern** — each ingredient plays a typed role (`ConsumedRole`, `OutputRole`, `AgentRole`) that precisely characterises *how* it participates.
 
 | Process type | Identity of participants |
 |---|---|
 | `TransformationProcess` | Inputs are consumed; a new output comes into being |
 | `DevelopmentalProcess` | The participant persists; only its qualities change |
-| `CompositionProcess` | Multiple inputs merge into one new composite entity |
-| `DecompositionProcess` | One input is broken into multiple new outputs |
 
 ---
 
@@ -125,9 +171,9 @@ A `PizzaOven`, `PizzaDeliveryBox`, and `CustomerTable` are introduced. You will 
 
 ### [07 — Deployment & FAIRness](07-SULO-tutorial-deployment.ipynb)
 
-**You will learn:** How to add ontology-level metadata required by the FAIR principles, how to version an ontology, and how to interpret a FOOPS! FAIRness assessment report.
+**You will learn:** How to add ontology-level metadata required by the FAIR principles, how to version an ontology, how to export it in multiple serialisations, and how to interpret a FOOPS! FAIRness assessment report.
 
-The complete pizza ontology receives `owl:versionIRI`, `owl:versionInfo`, Dublin Core annotations (`dc:title`, `dc:description`, `dc:creator`, `dc:license`, `dc:created`), and `rdfs:label` coverage across all classes. The ontology is exported to both RDF/XML and Turtle. A self-assessment against key FOOPS! indicators is included.
+The complete pizza ontology receives `owl:versionIRI`, `owl:versionInfo`, Dublin Core annotations (`dc:title`, `dc:description`, `dc:creator`, `dc:license`, `dc:created`), and `rdfs:label` coverage across all classes. The ontology is exported to RDF/XML and Turtle (with rdflib post-processing to ensure OWL 2 DL compliance). A live FOOPS! assessment is run via the API using a public ontology URI; participants can also upload their file directly at [foops.linkeddata.es](https://foops.linkeddata.es/FAIR_validator.html#).
 
 ---
 
@@ -152,19 +198,20 @@ The complete pizza ontology receives `owl:versionIRI`, `owl:versionInfo`, Dublin
 | `sulo:EndTime` | NB 05 | BakingEndTime, DeliveryTime |
 | `sulo:Duration` | NB 05 | DeliveryDuration, BakingDuration |
 
-### sulo-ext classes (created in NB 03)
+### PRO classes (created in NB 03)
+
+PRO (`https://w3id.org/ontostart/pro/`) extends SULO with process sub-types and a participation role taxonomy.
 
 | Class | Parent | Semantics |
 |---|---|---|
 | `TransformationProcess` | `sulo:Process` | Inputs consumed, output created |
 | `DevelopmentalProcess` | `sulo:Process` | Participant persists, qualities change |
-| `CompositionProcess` | `sulo:Process` | Multiple inputs merge into one output |
-| `DecompositionProcess` | `sulo:Process` | One input splits into multiple outputs |
-| `InputRole` | `sulo:Role` | Generic participant that enters a process |
-| `AgentRole` | `InputRole` | Intentional director of the process |
-| `TargetRole` | `InputRole` | Entity affected or consumed |
-| `InstrumentRole` | `InputRole` | Tool used in the process |
-| `OutputRole` | `sulo:Role` | Entity that comes into being |
+| `AgentRole` | `sulo:Role` | Intentional director of the process |
+| `PatientRole` | `sulo:Role` | Entity that undergoes effects |
+| `ConsumedRole` | `PatientRole` | Entity ceases to exist during the process |
+| `InstrumentRole` | `sulo:Role` | Tool that mediates or enables the process |
+| `LocationRole` | `sulo:Role` | Spatial object in which the process occurs |
+| `PersistingRole` | `sulo:Role` | Entity that persists unchanged through the process |
 
 ### Object properties used
 
@@ -176,7 +223,6 @@ The complete pizza ontology receives `owl:versionIRI`, `owl:versionInfo`, Dublin
 | `sulo:refersTo` | Feature → Object | Links a quantity/info object to what it measures or represents | NB 02, 04 |
 | `sulo:hasValue` | Quantity → literal | FunctionalProperty; must be assigned as a scalar | NB 02, 05 |
 | `sulo:hasParticipant` | Process → Object | General participant relation | NB 03 |
-| `se:hasDirectParticipant` | Process → Object | Non-transitive sub-property for cardinality on participants | NB 03 |
 | `sulo:precedes` | Process → Process | Temporal ordering between process classes | NB 03 |
 | `sulo:isFeatureOf` | Feature → Object | Inverse of hasFeature; used in role reification | NB 03 |
 | `sulo:atTime` | Object → Time | Links a process or object to a time entity | NB 05 |
@@ -218,7 +264,7 @@ The complete pizza ontology receives `owl:versionIRI`, `owl:versionInfo`, Dublin
 | AllDisjoint (classes) | NB 01 |
 | TransitiveProperty | NB 01 (hasPart), NB 05 (temporallyPrecedes), NB 06 (spatiallyContains) |
 | FunctionalProperty | NB 02 (hasValue) |
-| SubObjectProperty | NB 01 (hasDirectPart ⊑ hasPart), NB 03 (hasDirectParticipant ⊑ hasParticipant) |
+| SubObjectProperty | NB 01 (hasDirectPart ⊑ hasPart) |
 | AllDifferent (individuals) | NB 04 |
 | owl:sameAs (individual equality) | NB 04 |
 
@@ -226,31 +272,30 @@ The complete pizza ontology receives `owl:versionIRI`, `owl:versionInfo`, Dublin
 
 | Construct | Introduced |
 |---|---|
-| `owl:imports` | NB 01 (imports SULO), NB 03 (imports sulo-ext) |
+| `owl:imports` | NB 01 (imports SULO), NB 03 (imports PRO) |
 | `owl:versionIRI` | NB 07 |
 | `owl:versionInfo` | NB 07 |
 | Dublin Core annotations (`dc:title`, `dc:description`, `dc:creator`, `dc:license`, `dc:created`) | NB 07 |
 | `rdfs:label`, `rdfs:comment` | throughout |
 | MIREOT import pattern | NB 02 (BioPortal term import) |
-| RDF/XML and N-Triples serialisation | NB 07 |
+| RDF/XML and Turtle serialisation | NB 07 |
 
 ---
 
 ## Ontology Artefacts
 
-Each notebook writes two outputs: a root-level file used as input to the next notebook, and versioned copies in `dist/`.
+Each numbered notebook writes a root-level checkpoint file used as input to the next notebook. Notebook 07 also exports the final ontology to `dist/`.
 
 ```
 pizza-01.owl  ←  01 (spatial objects)
 pizza-02.owl  ←  02 (qualities & quantities)
-pizza-03.owl  ←  03 (processes)        sulo-ext.owl (created here)
+pizza-03.owl  ←  03 (processes)        pro.owl (created here)
 pizza-04.owl  ←  04 (information entities)
 pizza-05.owl  ←  05 (time)
 pizza-06.owl  ←  06 (spatial containment)
 pizza-07.owl  ←  07 (deployment)
 
 dist/
-  pizza-01.{owl,ttl} … pizza-07.{owl,ttl}
   pizza.owl   ← final ontology (RDF/XML)
-  pizza.nt   ← final ontology (N-Triples)
+  pizza.ttl   ← final ontology (Turtle, OWL 2 DL-clean)
 ```
