@@ -21,28 +21,57 @@ Verify the install:
 git --version
 ```
 
-### 2. Clone the tutorial repository
+### 2. Clone the tutorial repository 
 
 ```bash
 git clone https://github.com/MaastrichtU-IDS/sulo-tutorial.git
-cd sulo-tutorial
 ```
 
-### 3. Clone the OntoStart template
+### 3. Fork and clone OntoStart
 
-The OntoStart template provides the scaffolding for publishing a FAIR ontology with automated versioning and CI. You will use it in NB07.
+OntoStart provides the scaffolding for publishing a FAIR ontology with automated CI, versioning, and documentation. You will use it in NB07. Because you will be publishing your own ontology, you need your **own fork** — not just a clone of the original.
+
+**Step 1 — Fork on GitHub**
+
+1. Go to [https://github.com/micheldumontier/ontostart](https://github.com/micheldumontier/ontostart)
+2. Click **Fork** (top-right) and create the fork under your own GitHub account
+
+**Step 2 — Clone your fork**
 
 ```bash
-# From wherever you keep projects (not inside sulo-tutorial)
-git clone https://github.com/micheldumontier/ontostart.git
-```
-
-To start your own FAIR ontology project, create a new branch in your fork of ontostart:
-
-```bash
+# Replace YOUR-USERNAME with your GitHub username
+git clone https://github.com/YOUR-USERNAME/ontostart.git
 cd ontostart
+```
+
+**Step 3 — Create a branch for your ontology**
+
+Name the branch after your ontology + github username e.g. `pizza-micheldumontier`
+
+```bash
 git checkout -b my-ontology
 ```
+
+This branch is where your ontology file will live. The CI pipeline deploys whatever is on this branch.
+
+**Step 4 — Keep your fork in sync (optional)**
+
+If the tutorial updates the template during the session:
+
+```bash
+git remote add upstream https://github.com/micheldumontier/ontostart.git
+git fetch upstream
+git merge upstream/main
+```
+
+### 4. Submit your ontology (end of tutorial)
+
+Once your ontology is published via NB07, open a pull request from your branch back to `micheldumontier/ontostart` so your work can be showcased alongside other participants' ontologies.
+
+1. Push your branch: `git push -u origin pizza-micheldumontier` # replace with your branch aname (in step 3)
+2. Go to your fork on GitHub and click **Compare & pull request**
+3. Set the base repository to `micheldumontier/ontostart`, base branch `main`
+4. Add a short title (e.g. *"Add pizza ontology — ESWC 2026"*) and submit
 
 ---
 
@@ -53,6 +82,9 @@ git checkout -b my-ontology
 No local Python or Java installation required. The container includes all dependencies: Python, owlready2, graphviz, and a Java runtime for the HermiT reasoner.
 
 ```bash
+# go to the root of the SULO tutorial
+cd sulo-tutorial
+
 # Build the image and start the Jupyter server (first run ~2 min)
 docker compose up --build
 
