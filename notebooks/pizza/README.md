@@ -126,7 +126,7 @@ Open `notebooks/pizza/00-SULO-tutorial-setup.ipynb` to verify the environment, t
 
 ## Notebook Sequence
 
-The notebooks must be run **in order**. Start with the three `00-` preparation notebooks, then work through 01–07. Each numbered notebook loads the ontology saved by the previous one (`pizza-NN.owl`) and writes `pizza-NN+1.owl`.
+The notebooks must be run **in order**. Start with the three `00-` preparation notebooks, then work through 01–08. Each numbered notebook loads the ontology saved by the previous one (`pizza-NN.owl`) and writes `pizza-NN+1.owl`.
 
 ### [00 — Environment Setup](00-SULO-tutorial-setup.ipynb)
 
@@ -201,7 +201,15 @@ A `PizzaOven`, `PizzaDeliveryBox`, and `CustomerTable` are introduced. You will 
 
 ---
 
-### [07 — Deployment & FAIRness](07-SULO-tutorial-deployment.ipynb)
+### [07 — SPARQL Queries](07-SULO-tutorial-sparql.ipynb)
+
+**You will learn:** How to query the asserted RDF graph using SPARQL 1.1 via owlready2, use property path expressions (`rdf:type/rdfs:subClassOf*`) to traverse the class hierarchy at query time, count distinct individuals with `COUNT(DISTINCT ...)`, and query `owl:sameAs` links across systems.
+
+Role-based spatial queries from notebook 06 are revisited. `AllDifferent` is declared over 8 pizza slice individuals so that OWL cardinality reasoning can count them correctly, and a SPARQL `COUNT` query retrieves the actual number. Two representations of the same pizza order (linked with `owl:sameAs`) are queried to demonstrate data integration across systems.
+
+---
+
+### [08 — Deployment & FAIRness](08-SULO-tutorial-deployment.ipynb)
 
 **You will learn:** How to add ontology-level metadata required by the FAIR principles, how to version an ontology, how to export it in multiple serialisations, and how to interpret a FOOPS! FAIRness assessment report.
 
@@ -316,7 +324,7 @@ PRO (`https://w3id.org/ontostart/pro/`) extends SULO with process sub-types and 
 
 ## Ontology Artefacts
 
-Each numbered notebook writes a root-level checkpoint file used as input to the next notebook. Notebook 07 also exports the final ontology to `dist/`.
+Each numbered notebook writes a root-level checkpoint file used as input to the next notebook. Notebook 08 also exports the final ontology to `dist/`.
 
 ```
 pizza-01.owl  ←  01 (spatial objects)
@@ -325,7 +333,8 @@ pizza-03.owl  ←  03 (processes)        pro.owl (created here)
 pizza-04.owl  ←  04 (information entities)
 pizza-05.owl  ←  05 (time)
 pizza-06.owl  ←  06 (spatial containment)
-pizza-07.owl  ←  07 (deployment)
+pizza-07.owl  ←  07 (SPARQL queries)
+pizza-08.owl  ←  08 (deployment)
 
 dist/
   pizza.owl   ← final ontology (RDF/XML)
