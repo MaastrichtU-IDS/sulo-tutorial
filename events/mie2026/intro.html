@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Clinical Ontology Engineering with SULO — MIE 2026</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css" id="theme">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+
+  <style>
+    :root {
+      --dark-blue:   #1A3A5C;
+      --mid-blue:    #206AA8;
+      --light-blue:  #D6EAF8;
+      --teal:        #168A8E;
+      --pale-teal:   #E0F0F0;
+      --orange:      #E67E22;
+      --pale-orange: #FDECD7;
+      --purple:      #8B3EA1;
+      --light-grey:  #F4F6F7;
+      --mid-grey:    #555555;
+      --dark-grey:   #2C2C2C;
+    }
+    .reveal { font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+              color: var(--dark-grey); }
+    .reveal h1, .reveal h2, .reveal h3 { font-family: inherit; color: var(--dark-blue);
+              text-transform: none; letter-spacing: -0.005em; }
+    .reveal h1 { font-weight: 700; font-size: 2.0em; }
+    .reveal h2 { font-weight: 700; font-size: 1.5em; margin-bottom: 0.4em; }
+    .reveal h3 { font-weight: 600; font-size: 1.1em; color: var(--mid-blue); }
+    .reveal p, .reveal li { font-size: 0.65em; line-height: 1.45; }
+    .reveal ul, .reveal ol { display: block; margin-left: 1em; }
+    .reveal code { font-family: "JetBrains Mono", "Source Code Pro", Menlo, monospace;
+                   font-size: 0.85em; color: var(--mid-blue); background: var(--light-grey);
+                   padding: 0.02em 0.3em; border-radius: 3px; }
+    .reveal a { color: var(--mid-blue); }
+
+    /* Title slide */
+    .reveal section.title { background: var(--dark-blue); color: white; padding: 0; }
+    .reveal section.title h1 { color: white; font-size: 2.4em; }
+    .reveal section.title .sub { color: var(--light-blue); font-style: italic; font-size: 1.0em; margin-top: 0.4em; }
+    .reveal section.title .venue { color: var(--light-blue); font-size: 0.75em; margin-top: 1em; }
+    .reveal section.title .speakers { color: #AACCEE; font-size: 0.7em; margin-top: 0.4em; }
+    .reveal section.title .affil { color: #88AACC; font-size: 0.55em; margin-top: 0.2em; }
+    .reveal section.title .tag { color: #E0E0E0; font-style: italic; font-size: 0.55em;
+                                 position: absolute; bottom: 1.5em; left: 0; right: 0; }
+    .reveal section.title .accent-bar { position: absolute; left: 0; right: 0; height: 6px;
+                                        background: var(--orange); top: 65%; }
+
+    /* Header bar on regular slides */
+    .header { position: absolute; top: 0; left: 0; right: 0; background: var(--dark-blue);
+              color: white; padding: 0.5em 1em 0.4em; text-align: left; }
+    .header h2 { color: white; font-size: 1.3em; margin: 0; }
+    .header .subhead { color: var(--light-blue); font-size: 0.45em; font-weight: 400; margin-top: 0.1em; }
+    .accent-bottom { height: 5px; background: var(--orange); margin-top: 1.2em; }
+    .reveal section.std { padding-top: 4em; padding-bottom: 1em; text-align: left; }
+
+    /* 3-column layout */
+    .cols { display: grid; gap: 1em; margin-top: 0.5em; }
+    .cols.c2 { grid-template-columns: 1fr 1fr; }
+    .cols.c3 { grid-template-columns: 1fr 1fr 1fr; }
+    .cols.c4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+    .card { background: var(--light-grey); padding: 0.9em 1em; border-radius: 6px; min-height: 100%; }
+    .card.blue  { background: var(--light-blue); }
+    .card.teal  { background: var(--pale-teal); }
+    .card.orange{ background: var(--pale-orange); }
+    .card h3 { margin-top: 0; margin-bottom: 0.5em; }
+    .card ul { padding-left: 1.1em; margin-left: 0; }
+    .card li { margin-bottom: 0.25em; }
+
+    /* Timeline */
+    .timeline { position: relative; margin: 1em 0.5em; height: 5em; }
+    .timeline .line { position: absolute; left: 0; right: 0; top: 1.6em; height: 3px;
+                      background: var(--mid-blue); }
+    .timeline .stop { position: absolute; transform: translateX(-50%); text-align: center; width: 6em; top: 0; }
+    .timeline .dot { width: 14px; height: 14px; border-radius: 50%; margin: 0.95em auto 0.4em;
+                     border: 2px solid white; }
+    .timeline .date  { font-size: 0.5em; font-weight: 700; color: var(--dark-grey); }
+    .timeline .label { font-size: 0.45em; line-height: 1.2; margin-top: 0.25em; }
+
+    /* Schedule */
+    table.sched { font-size: 0.55em; width: 100%; border-collapse: separate; border-spacing: 0 4px; }
+    table.sched td { padding: 0.35em 0.7em; }
+    table.sched td:first-child { width: 4em; background: var(--mid-blue); color: white; font-weight: 700;
+                                  border-radius: 3px 0 0 3px; text-align: center; }
+    table.sched td:nth-child(2) { background: var(--light-grey); }
+    table.sched td:last-child  { width: 5em; background: var(--light-grey); text-align: center;
+                                  color: var(--mid-grey); border-radius: 0 3px 3px 0; }
+    table.sched tr.brk td:first-child { background: var(--orange); }
+    table.sched tr.brk td { background: var(--pale-orange); font-weight: 700; }
+
+    /* Notebook table */
+    table.nbs { font-size: 0.55em; width: 100%; border-collapse: separate; border-spacing: 0 4px; }
+    table.nbs td { padding: 0.5em 0.7em; vertical-align: middle; }
+    table.nbs td.tag { width: 3em; color: white; font-weight: 700; text-align: center;
+                        font-size: 1.3em; border-radius: 4px 0 0 4px; }
+    table.nbs td.body { background: var(--light-grey); }
+    table.nbs td.dur { width: 4.5em; background: var(--light-grey); text-align: right;
+                       font-weight: 700; border-radius: 0 4px 4px 0; }
+    table.nbs td.body .title { font-weight: 700; color: var(--dark-grey); display: block; }
+    table.nbs td.body .ctor  { font-style: italic; color: var(--mid-grey); font-size: 0.85em;
+                                display: block; margin-top: 0.15em; }
+
+    /* Speakers */
+    .speaker-card { background: #2A4E77; color: white; padding: 1.2em 1.4em; border-radius: 6px;
+                    text-align: left; }
+    .speaker-card h3 { color: white; font-size: 1.05em; margin-bottom: 0.5em; }
+    .speaker-card p { color: var(--light-blue); font-size: 0.55em; line-height: 1.4; margin: 0; }
+    .resource-card { background: #2A4E77; color: white; padding: 1.2em 1.4em; border-radius: 6px;
+                     margin-top: 0.7em; text-align: left; }
+    .resource-card h3 { color: white; font-size: 0.95em; margin: 0 0 0.6em 0; }
+    .resource-card p { color: var(--light-blue); font-size: 0.55em; margin: 0.2em 0; line-height: 1.5; }
+    .resource-card code { background: rgba(255,255,255,0.1); color: white; }
+
+    /* Anchor pattern step pills */
+    .step { background: var(--pale-orange); border-radius: 4px; padding: 0.5em 0.9em; margin-bottom: 0.45em;
+            display: grid; grid-template-columns: 6em 1fr; gap: 0.7em; align-items: center; }
+    .step .tag { color: var(--orange); font-weight: 700; font-size: 0.8em; }
+    .step .desc { font-size: 0.55em; color: var(--dark-grey); }
+
+    /* Allow tall slides to scroll instead of overflowing below the viewport. */
+    html, body, .reveal { height: 100vh !important; overflow: hidden !important; }
+    .reveal .slides {
+      width: 100vw !important; height: 100vh !important;
+      top: 0 !important; left: 0 !important;
+      transform: none !important;
+    }
+    .reveal .slides > section,
+    .reveal .slides > section > section {
+      width: 100vw !important;
+      max-height: 100vh !important; height: 100vh !important;
+      overflow-y: auto !important; overflow-x: hidden !important;
+      top: 0 !important; left: 0 !important;
+      transform: none !important;
+      display: block !important;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body>
+<div class="reveal">
+  <div class="slides">
+
+    <!-- ── 1. Title ─────────────────────────────────────────────────── -->
+    <section class="title">
+      <div style="position:absolute; top:30%; left:0; right:0;">
+        <h1>Clinical Ontology Engineering<br>with SULO</h1>
+        <div class="sub">A Hands-On Tutorial — Mary's Clinical Odyssey</div>
+      </div>
+      <div class="accent-bar"></div>
+      <div style="position:absolute; top:72%; left:0; right:0;">
+        <div class="venue">Medical Informatics Europe (MIE) 2026</div>
+        <div class="speakers">Michel Dumontier &nbsp;·&nbsp; Remzi Celebi</div>
+        <div class="affil">Institute of Data Science, Maastricht University</div>
+      </div>
+      <div class="tag">From clinical timeline to FAIR-published ontology, using only SULO + PRO</div>
+    </section>
+
+    <!-- ── 2. The Challenge ─────────────────────────────────────────── -->
+    <section class="std">
+      <div class="header"><h2>The Challenge</h2><div class="subhead">Clinical ontology engineering, today</div></div>
+      <div class="cols c3">
+        <div class="card">
+          <h3>⚠ Modelling Conflations</h3>
+          <ul>
+            <li>Hundreds of overlapping participation properties (<code>hasPerformer</code>, <code>hasSubject</code>, …)</li>
+            <li>Diseases, tumours, and findings conflated</li>
+            <li>Statement, disease, and act of diagnosis confused</li>
+            <li>Quantities modelled as bare numbers</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>⚠ Unresolved Patterns</h3>
+          <ul>
+            <li>How to refer to a process that hasn't happened yet?</li>
+            <li>How to anchor a measurement to a patient over time?</li>
+            <li>When is parthood the wrong relation for anatomy?</li>
+            <li>How to merge views from two EHR systems?</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>⚠ FAIR &amp; Training Gap</h3>
+          <ul>
+            <li>Ontologies rarely come with version IRIs, licences, proper metadata</li>
+            <li>Few tutorials connect modelling → reasoning → publishing</li>
+            <li>No practical template for FAIR clinical-ontology projects</li>
+            <li>Upper-level ontologies under-used in clinical teaching</li>
+          </ul>
+        </div>
+      </div>
+      <div class="accent-bottom"></div>
+    </section>
+
+    <!-- ── 3. Goals ─────────────────────────────────────────────────── -->
+    <section class="std">
+      <div class="header"><h2>Goals of the Tutorial</h2></div>
+      <div class="cols c2">
+        <div class="card blue">
+          <h3>🩺 Domain modelling with SULO</h3>
+          <ul>
+            <li>Demonstrate that SULO's vocabulary is sufficient for clinical modelling — no new properties required</li>
+            <li>Teach the SULO design patterns: PRO, SOLID, Collection/hasItem, the diagnosis triangle</li>
+            <li>Translate clinical reality into OWL axioms the reasoner can use</li>
+            <li>Apply automated classification to recover clinically meaningful statements</li>
+          </ul>
+        </div>
+        <div class="card teal">
+          <h3 style="color: var(--teal);">🌍 FAIR publishing</h3>
+          <ul>
+            <li>Set version IRIs and a complete metadata footprint (dc, vann, pav, dcat, foaf, schema, mod)</li>
+            <li>Export to multiple serialisations (RDF/XML, Turtle), OWL 2 DL-clean</li>
+            <li>Run a FAIRness self-check and submit to FOOPS! for the authoritative report</li>
+            <li>Walk away with a publishable clinical-modelling ontology</li>
+          </ul>
+        </div>
+      </div>
+      <div class="accent-bottom"></div>
+    </section>
+
+    <!-- ── 4. Learning objectives ───────────────────────────────────── -->
+    <section class="std">
+      <div class="header"><h2>Learning Objectives</h2><div class="subhead">What attendees will be able to do by the end of the half-day</div></div>
+      <ul style="margin-top: 0.8em; column-count: 1;">
+        <li>Classify clinical entities under SULO's top-level categories (<code>Process</code>, <code>SpatialObject</code>, <code>Quality</code>, <code>Quantity</code>, <code>Role</code>, <code>InformationObject</code>, <code>Time</code>, <code>Unit</code>, <code>Collection</code>)</li>
+        <li>Apply the <strong>Process-Role-Object (PRO)</strong> pattern to model procedural participation without inventing new properties</li>
+        <li>Distinguish <strong>persistent roles</strong> from <strong>event-bound roles</strong> in real clinical data</li>
+        <li>Use the <strong>SOLID</strong> pattern for numeric measurements with units and thresholds</li>
+        <li>Express anatomy as composition using <code>AllDisjoint</code> and the <strong>split-definition</strong> pattern</li>
+        <li>Distinguish the disease (Process), the tumour (SpatialObject), and the diagnosis statement (InformationObject)</li>
+        <li>Refer to not-yet-instantiated processes via <code>Collection</code> / <code>hasItem</code></li>
+        <li>Query the ontology with SPARQL — property paths, multi-hop joins, <code>COUNT DISTINCT</code>, <code>sameAs</code></li>
+        <li>Add FAIR metadata, version IRIs, and submit to FOOPS! for external assessment</li>
+      </ul>
+      <div class="accent-bottom"></div>
+    </section>
+
+    <!-- ── 5. Mary's Odyssey ────────────────────────────────────────── -->
+    <section class="std">
+      <div class="header"><h2>The Running Case</h2><div class="subhead">Mary, 52 — breast cancer journey, Feb–Sep 2026</div></div>
+      <div class="timeline">
+        <div class="line"></div>
+        <div class="stop" style="left: 4%;">  <div class="dot" style="background: var(--dark-blue);"></div><div class="date">Feb 18</div><div class="label">Routine<br>visit + BP</div></div>
+        <div class="stop" style="left: 16%;"> <div class="dot" style="background: var(--dark-blue);"></div><div class="date">Feb 20</div><div class="label">Ultrasound</div></div>
+        <div class="stop" style="left: 28%;"> <div class="dot" style="background: var(--dark-blue);"></div><div class="date">Feb 22</div><div class="label">Preliminary<br>diagnosis</div></div>
+        <div class="stop" style="left: 40%;"> <div class="dot" style="background: var(--orange);"></div>   <div class="date">Feb 25</div><div class="label">Biopsy</div></div>
+        <div class="stop" style="left: 52%;"> <div class="dot" style="background: var(--orange);"></div>   <div class="date">Mar 1</div><div class="label">Histopath +<br>confirmed dx</div></div>
+        <div class="stop" style="left: 64%;"> <div class="dot" style="background: var(--teal);"></div>     <div class="date">Mar 10</div><div class="label">Chemo<br>begins</div></div>
+        <div class="stop" style="left: 76%;"> <div class="dot" style="background: var(--teal);"></div>     <div class="date">Jun 15</div><div class="label">Chemo<br>ends</div></div>
+        <div class="stop" style="left: 88%;"> <div class="dot" style="background: var(--orange);"></div>   <div class="date">Jul 1</div><div class="label">Lumpectomy</div></div>
+        <div class="stop" style="left: 96%;"> <div class="dot" style="background: var(--mid-blue);"></div> <div class="date">Sep 30</div><div class="label">Follow-up<br>(remission)</div></div>
+      </div>
+      <div class="cols c3" style="margin-top: 2.5em;">
+        <div class="card"><h3>One patient</h3><ul>
+          <li>Nine clinical events on one timeline</li>
+          <li>Two clinicians (Miller, Smith)</li>
+          <li>One anatomical site (left breast)</li>
+          <li>One disease (invasive carcinoma)</li>
+          <li>Four chemo administrations</li>
+        </ul></div>
+        <div class="card"><h3>One rich record</h3><ul>
+          <li>Numeric features (BP measurements)</li>
+          <li>Categorical features (tumour grade, receptor status)</li>
+          <li>Information entities (diagnosis statements, prescription)</li>
+          <li>Cross-system identity via <code>owl:sameAs</code></li>
+        </ul></div>
+        <div class="card"><h3>One pedagogic principle</h3><ul>
+          <li>Each event lands a specific SULO category + OWL construct</li>
+          <li>Each new construct produces a reasoner-derived classification</li>
+          <li>No design pattern is rehearsed — every scene teaches a new lesson</li>
+          <li>Builds incrementally NB1 → … → NB7</li>
+        </ul></div>
+      </div>
+      <div class="accent-bottom"></div>
+    </section>
+
+    <!-- ── 6. Methodology ───────────────────────────────────────────── -->
+    <section class="std">
+      <div class="header"><h2>Methodology</h2><div class="subhead">How each notebook is built</div></div>
+      <div class="cols c2" style="grid-template-columns: 7fr 5fr;">
+        <div>
+          <h3 style="margin-top: 0;">The anchor pattern (per notebook)</h3>
+          <div class="step"><div class="tag">① Clinical scene</div><div class="desc">Pick a dated event from Mary's odyssey</div></div>
+          <div class="step"><div class="tag">② Identify the construct</div><div class="desc">What SULO category + OWL feature does this scene need?</div></div>
+          <div class="step"><div class="tag">③ Declare it</div><div class="desc">T-Box restrictions + A-Box assertions, SULO properties only</div></div>
+          <div class="step"><div class="tag">④ Run the reasoner</div><div class="desc">HermiT consistency check + classification of defined classes</div></div>
+          <div class="step"><div class="tag">⑤ Verify with SPARQL</div><div class="desc">Query for the inferred answer — the lesson has landed</div></div>
+        </div>
+        <div class="card blue">
+          <h3>The SULO discipline</h3>
+          <ul>
+            <li>Zero new object properties added</li>
+            <li>Zero new data properties added</li>
+            <li>Every relation is <code>sulo:*</code> or <code>owl:*</code></li>
+            <li>Domain growth arrives as new <em>classes</em>, not new predicates</li>
+            <li>The MIE ontology stays aligned with the upper-level</li>
+          </ul>
+        </div>
+      </div>
+      <div class="accent-bottom"></div>
+    </section>
+
+    <!-- ── 7. Notebook structure ────────────────────────────────────── -->
+    <section class="std">
+      <div class="header"><h2>Tutorial Structure</h2><div class="subhead">Seven Jupyter notebooks, ~190 min content</div></div>
+      <table class="nbs">
+        <tr><td class="tag" style="background: var(--dark-blue);">NB1</td><td class="body"><span class="title">Processes, parts, time, ordering</span><span class="ctor">Process, Time  |  SubClass, cardinality, SPARQL +/*</span></td><td class="dur" style="color: var(--dark-blue);">40 min</td></tr>
+        <tr><td class="tag" style="background: var(--mid-blue);">NB2</td><td class="body"><span class="title">Roles &amp; the PRO pattern</span><span class="ctor">Role  |  Nested existentials, defined class</span></td><td class="dur" style="color: var(--mid-blue);">30 min</td></tr>
+        <tr><td class="tag" style="background: var(--teal);">NB3</td><td class="body"><span class="title">Spatial objects &amp; their parts</span><span class="ctor">SpatialObject  |  AllDisjoint, only, split definition</span></td><td class="dur" style="color: var(--teal);">25 min</td></tr>
+        <tr><td class="tag" style="background: var(--orange);">NB4</td><td class="body"><span class="title">Qualities, quantities, thresholds</span><span class="ctor">Quality, Quantity, Unit  |  ConstrainedDatatype, union</span></td><td class="dur" style="color: var(--orange);">30 min</td></tr>
+        <tr><td class="tag" style="background: var(--purple);">NB5</td><td class="body"><span class="title">Connections — containment, info, identity</span><span class="ctor">InformationObject, Collection  |  value restriction, AllDifferent, sameAs</span></td><td class="dur" style="color: var(--purple);">30 min</td></tr>
+        <tr><td class="tag" style="background: var(--mid-blue);">NB6</td><td class="body"><span class="title">Reasoning &amp; SPARQL</span><span class="ctor">(queries only)  |  property paths, UNION, COUNT DISTINCT</span></td><td class="dur" style="color: var(--mid-blue);">20 min</td></tr>
+        <tr><td class="tag" style="background: var(--teal);">NB7</td><td class="body"><span class="title">FAIR publishing</span><span class="ctor">(packaging)  |  versionIRI, dc/dcterms/vann/pav/dcat/mod</span></td><td class="dur" style="color: var(--teal);">15 min</td></tr>
+      </table>
+      <div class="accent-bottom"></div>
+    </section>
+
+    <!-- ── 8. Building blocks ───────────────────────────────────────── -->
+    <section class="std">
+      <div class="header"><h2>Building Blocks</h2><div class="subhead">SULO + PRO + the design patterns we use</div></div>
+      <div class="cols c3">
+        <div class="card blue">
+          <h3>SULO upper-level</h3>
+          <ul>
+            <li>Process, SpatialObject, Quality, Quantity, Unit</li>
+            <li>Role, Feature (via PRO sub-classes)</li>
+            <li>InformationObject, Collection</li>
+            <li>Time / TimeInstant / StartTime / EndTime</li>
+            <li>→ <code>hasPart</code>, <code>hasDirectPart</code>, <code>hasParticipant</code>, <code>hasFeature</code>, <code>refersTo</code>, <code>atTime</code>, <code>isIn</code>, <code>hasValue</code>, <code>hasItem</code>, <code>precedes</code></li>
+          </ul>
+        </div>
+        <div class="card teal">
+          <h3 style="color: var(--teal);">PRO extension</h3>
+          <ul>
+            <li><code>TransformationProcess</code> vs <code>DevelopmentalProcess</code></li>
+            <li>AgentRole, PatientRole, InstrumentRole, LocationRole, EmergingRole, ConsumedRole, DevelopmentRole, PersistingRole</li>
+            <li>→ Reifies participation through roles</li>
+            <li>→ Adds classes, not properties</li>
+            <li>→ Used in NB2; reused everywhere thereafter</li>
+          </ul>
+        </div>
+        <div class="card orange">
+          <h3 style="color: var(--orange);">Design patterns</h3>
+          <ul>
+            <li><strong>PRO</strong> (NB2) — Process-Role-Object participation</li>
+            <li><strong>SOLID</strong> (NB4) — Quantity + Unit + hasValue</li>
+            <li><strong>Collection / hasItem</strong> (NB5) — reference to not-yet-instantiated processes</li>
+            <li><strong>Diagnosis triangle</strong> (NB5) — Process / Statement / Assessment</li>
+            <li><strong>Split definition</strong> (NB3) — existentials drive classification; cardinality + universals constrain it</li>
+          </ul>
+        </div>
+      </div>
+      <div class="accent-bottom"></div>
+    </section>
+
+    <!-- ── 9. OWL constructs ─────────────────────────────────────────── -->
+    <section class="std">
+      <div class="header"><h2>OWL Constructs Covered</h2><div class="subhead">~25 distinct constructs, each anchored to a clinical demo</div></div>
+      <div class="cols c4">
+        <div class="card"><h3>Structural</h3><ul>
+          <li>Class declaration</li><li>SubClassOf</li><li>Multiple typing</li><li>owl:imports</li>
+          <li>Named individuals</li><li>AnnotationProperty declaration</li>
+          <li>rdfs:label @en</li><li>rdfs:comment</li>
+        </ul></div>
+        <div class="card"><h3>Class expressions</h3><ul>
+          <li>Existential <code>some</code></li><li>Universal <code>only</code></li>
+          <li>Intersection ⊓</li><li>Union ⊔</li>
+          <li>Value <code>hasFeature value …</code></li><li>Cardinality <code>exactly</code> / <code>max</code></li>
+          <li>Nested existentials</li><li>ConstrainedDatatype</li>
+        </ul></div>
+        <div class="card"><h3>Axioms</h3><ul>
+          <li>EquivalentClasses (defined class)</li><li>AllDisjoint (classes)</li>
+          <li>AllDifferent (individuals)</li><li>owl:sameAs (individuals)</li>
+          <li>TransitiveProperty (inherited)</li><li>FunctionalProperty (inherited)</li>
+          <li>owl:versionIRI</li>
+        </ul></div>
+        <div class="card"><h3>SPARQL</h3><ul>
+          <li>Property path <code>+</code></li><li>Property path <code>*</code></li>
+          <li>Parameter substitution</li><li><code>COUNT(DISTINCT …)</code></li>
+          <li><code>UNION</code> (symmetric sameAs)</li><li>Multi-hop joins</li>
+          <li>Type filtering</li><li><code>ORDER BY</code></li>
+        </ul></div>
+      </div>
+      <div class="accent-bottom"></div>
+    </section>
+
+    <!-- ── 10. Outcomes ─────────────────────────────────────────────── -->
+    <section class="std">
+      <div class="header"><h2>Outcomes</h2><div class="subhead">What each attendee walks away with</div></div>
+      <div class="cols c2">
+        <div class="card blue">
+          <h3>Deliverable artefacts</h3>
+          <ul>
+            <li>An executable Jupyter notebook series (~190 min content)</li>
+            <li><code>dist/mie.owl</code> — RDF/XML, OWL 2 DL-clean</li>
+            <li><code>dist/mie.ttl</code> — Turtle</li>
+            <li>48 classes, 66 individuals, <strong>zero local object/data properties</strong></li>
+            <li>Reasoner-validated under HermiT</li>
+            <li>FAIRness self-check: 12 / 12 indicators</li>
+            <li>FOOPS! external assessment (network permitting)</li>
+          </ul>
+        </div>
+        <div class="card teal">
+          <h3 style="color: var(--teal);">Transferable skills</h3>
+          <ul>
+            <li>Fluent in SULO's top-level categories and properties</li>
+            <li>Confident with the PRO and SOLID design patterns</li>
+            <li>Can write OWL class expressions that drive classification under OWA</li>
+            <li>Can query an ontology with SPARQL 1.1 property paths</li>
+            <li>Can package an OWL ontology for FAIR publishing</li>
+            <li>Can read a FOOPS! report and close the gaps it identifies</li>
+          </ul>
+        </div>
+      </div>
+      <div class="accent-bottom"></div>
+    </section>
+
+    <!-- ── 11. Schedule ─────────────────────────────────────────────── -->
+    <section class="std">
+      <div class="header"><h2>Schedule</h2><div class="subhead">Half-day tutorial — 4 hours including intro, break, and Q&amp;A</div></div>
+      <table class="sched">
+        <tr><td>0:00</td><td>Welcome + tutorial overview</td><td>15 min</td></tr>
+        <tr><td>0:15</td><td>SULO postcard tour &amp; environment setup</td><td>10 min</td></tr>
+        <tr><td>0:25</td><td>NB1 — Processes, parts, time, ordering</td><td>40 min</td></tr>
+        <tr><td>1:05</td><td>NB2 — Roles &amp; the PRO pattern</td><td>30 min</td></tr>
+        <tr><td>1:35</td><td>NB3 — Spatial objects &amp; their parts</td><td>25 min</td></tr>
+        <tr class="brk"><td>2:00</td><td>Break</td><td>15 min</td></tr>
+        <tr><td>2:15</td><td>NB4 — Qualities, quantities, thresholds</td><td>30 min</td></tr>
+        <tr><td>2:45</td><td>NB5 — Connections</td><td>30 min</td></tr>
+        <tr><td>3:15</td><td>NB6 — Reasoning &amp; SPARQL</td><td>20 min</td></tr>
+        <tr><td>3:35</td><td>NB7 — FAIR publishing</td><td>15 min</td></tr>
+        <tr><td>3:50</td><td>Q&amp;A and wrap-up</td><td>10 min</td></tr>
+      </table>
+      <div class="accent-bottom"></div>
+    </section>
+
+    <!-- ── 12. Speakers & Resources ─────────────────────────────────── -->
+    <section class="title">
+      <div style="position:absolute; top:5%; left:0; right:0;">
+        <h1 style="font-size: 1.6em;">Speakers &amp; Resources</h1>
+      </div>
+      <div style="position:absolute; top:18%; left:5%; right:5%;">
+        <div class="cols c2">
+          <div class="speaker-card">
+            <h3>Michel Dumontier</h3>
+            <p>Distinguished Professor of Data Science<br>
+               Maastricht University · Institute of Data Science<br>
+               Co-founder of the FAIR principles · Co-creator of SULO</p>
+          </div>
+          <div class="speaker-card">
+            <h3>Remzi Celebi</h3>
+            <p>Assistant Professor<br>
+               Maastricht University · Institute of Data Science<br>
+               Biomedical knowledge graphs · semantic data integration · ML for health</p>
+          </div>
+        </div>
+        <div class="resource-card">
+          <h3>Resources</h3>
+          <p>▸ Notebooks: <code>github.com/MaastrichtU-IDS/sulo-tutorial</code> — <code>notebooks/mie2026/</code></p>
+          <p>▸ SULO: <code>w3id.org/sulo</code> &nbsp;·&nbsp; PRO: <code>w3id.org/ontostart/pro/</code></p>
+          <p>▸ OntoStart: <code>github.com/micheldumontier/ontostart</code> &nbsp;·&nbsp; FOOPS!: <code>foops.linkeddata.es</code></p>
+        </div>
+      </div>
+      <div class="tag">Welcome — let's begin Mary's odyssey.</div>
+    </section>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+<script>
+  Reveal.initialize({
+    width: 1280,
+    height: 720,
+    margin: 0.04,
+    hash: true,
+    slideNumber: 'c/t',
+    transition: 'fade',
+    plugins: [ RevealNotes, RevealHighlight ],
+  });
+</script>
+</body>
+</html>
