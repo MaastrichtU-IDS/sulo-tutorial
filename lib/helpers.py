@@ -234,3 +234,48 @@ def in_ancestors(onto, cls, ancestor):
         print(f"{cls.name} is a subclass of {ancestor.name}")
     else:
         print(f"{cls.name} is NOT a subclass of {ancestor.name}")
+
+
+def manchester(expr):
+    """Render an owlready2 class expression in OWL Manchester syntax."""
+    if expr is None:
+        return "Nothing"
+    if isinstance(expr, And):
+        return " and ".join(_mch_paren(manchester(c)) for c in expr.Classes)
+    if isinstance(expr, Or):
+        return " or ".join(_mch_paren(manchester(c)) for c in expr.Classes)
+    if isinstance(expr, Not):
+        return f"not {_mch_paren(manchester(expr.Class))}"
+    if isinstance(expr, Restriction):
+        prop = expr.property.name
+        if expr.type == SOME:
+            return f"{prop} some {_mch_paren(manchester(expr.value))}"
+        if expr.type == ONLY:
+            return f"{prop} only {_mch_paren(manchester(expr.value))}"
+        if expr.type == VALUE:
+            v = expr.value
+            return f"{prop} value {v.name if hasattr(v, 'name') else v}"
+        if expr.type == EXACTLY:
+            return f"{prop} exactly {expr.cardinality} {_mch_paren(manchester(expr.value))}"
+        if expr.type == MIN:
+            return f"{prop} min {expr.cardinality} {_mch_paren(manchester(expr.value))}"
+        if expr.type == MAX:
+            return f"{prop} max {expr.cardinality} {_mch_paren(manchester(expr.value))}"
+    if isinstance(expr, ConstrainedDatatype):
+        base = getattr(expr.base_datatype, "__name__", str(expr.base_datatype))
+        facets = []
+        for f, sym in [("min_inclusive", ">="), ("min_exclusive", ">"),
+                       ("max_inclusive", "<="), ("max_exclusive", "<"),
+                       ("length", "length"), ("min_length", "minLength"),
+                       ("max_length", "maxLength"), ("pattern", "pattern")]:
+            v = getattr(expr, f, None)
+            if v is not None:
+                facets.append(f"{sym} {v}" if sym in (">=", ">", "<=", "<") else f"{sym} {v}")
+        return f"{base}[{', '.join(facets)}]" if facets else base
+    if hasattr(expr, "name"):
+        return expr.name
+    return str(expr)
+
+
+def _mch_paren(s):
+    return f"({s})" if (" and " in s or " or " in s) else s
