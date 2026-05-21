@@ -7482,7 +7482,7 @@ main {
 </div>
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=nb06-setup-md">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -7493,7 +7493,7 @@ main {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=nb06-setup">
+</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=nb06-setup">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7541,7 +7541,7 @@ MIE object properties (local): 0  ← still zero
 </div>
 </div>
 </div>
-</div>
+</div></div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=nb06-q1-md">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -7553,7 +7553,7 @@ MIE object properties (local): 0  ← still zero
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=nb06-q1">
+</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=nb06-q1">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7603,7 +7603,7 @@ MIE object properties (local): 0  ← still zero
 </div>
 </div>
 </div>
-</div>
+</div></div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=nb06-q2-md">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -7615,7 +7615,7 @@ MIE object properties (local): 0  ← still zero
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=nb06-q2">
+</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=nb06-q2">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7659,7 +7659,7 @@ MIE object properties (local): 0  ← still zero
 </div>
 </div>
 </div>
-</div>
+</div></div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=nb06-q3-md">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -7671,7 +7671,7 @@ MIE object properties (local): 0  ← still zero
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=nb06-q3">
+</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9bd8c4f3">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7679,7 +7679,8 @@ MIE object properties (local): 0  ← still zero
 <div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">default_world</span><span class="o">.</span><span class="n">sparql</span><span class="p">(</span><span class="s2">"""</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Q3a — readings classified as HypertensiveReading by the reasoner</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">default_world</span><span class="o">.</span><span class="n">sparql</span><span class="p">(</span><span class="s2">"""</span>
 <span class="s2">    PREFIX sulo: &lt;https://w3id.org/sulo/&gt;</span>
 <span class="s2">    PREFIX mie:  &lt;https://w3id.org/ontostart/mie/&gt;</span>
 <span class="s2">    PREFIX rdf:  &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;</span>
@@ -7691,8 +7692,36 @@ MIE object properties (local): 0  ← still zero
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Mary's readings classified as HypertensiveReading — </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="si">}</span><span class="s2"> of 3</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">reading</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">reading</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">30s</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> mmHg"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Mary's readings classified as HypertensiveReading — 2 of 3
 
-<span class="c1"># And for completeness, here are *all* Mary's readings, with their classification</span>
+  mary_bp_reading2_feb18          142 mmHg
+  mary_bp_reading3_feb18          165 mmHg
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=8ca06e60">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Q3b — for context, show *all* Mary's readings, flagged</span>
 <span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">default_world</span><span class="o">.</span><span class="n">sparql</span><span class="p">(</span><span class="s2">"""</span>
 <span class="s2">    PREFIX sulo: &lt;https://w3id.org/sulo/&gt;</span>
 <span class="s2">    PREFIX mie:  &lt;https://w3id.org/ontostart/mie/&gt;</span>
@@ -7702,7 +7731,7 @@ MIE object properties (local): 0  ← still zero
 <span class="s2">        ?reading sulo:hasValue ?value .</span>
 <span class="s2">    } ORDER BY ?value</span>
 <span class="s2">"""</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">All BPMeasurement readings on Mary:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"All BPMeasurement readings on Mary:"</span><span class="p">)</span>
 <span class="n">ht_set</span> <span class="o">=</span> <span class="p">{</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">default_world</span><span class="o">.</span><span class="n">sparql</span><span class="p">(</span><span class="s2">"""</span>
 <span class="s2">    PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;</span>
 <span class="s2">    PREFIX mie: &lt;https://w3id.org/ontostart/mie/&gt;</span>
@@ -7723,12 +7752,7 @@ MIE object properties (local): 0  ← still zero
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Mary's readings classified as HypertensiveReading — 2 of 3
-
-  mary_bp_reading2_feb18          142 mmHg
-  mary_bp_reading3_feb18          165 mmHg
-
-All BPMeasurement readings on Mary:
+<pre>All BPMeasurement readings on Mary:
   mary_bp_reading1_feb18          118 mmHg
   mary_bp_reading2_feb18          142 mmHg  HYPERTENSIVE
   mary_bp_reading3_feb18          165 mmHg  HYPERTENSIVE
@@ -7737,7 +7761,7 @@ All BPMeasurement readings on Mary:
 </div>
 </div>
 </div>
-</div>
+</div></div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=nb06-q4-md">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -7748,15 +7772,16 @@ All BPMeasurement readings on Mary:
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=nb06-q4">
+</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=276367ce">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">default_world</span><span class="o">.</span><span class="n">sparql</span><span class="p">(</span><span class="s2">"""</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Q4a — every feature attached to Mary's specimen, with its type</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">default_world</span><span class="o">.</span><span class="n">sparql</span><span class="p">(</span><span class="s2">"""</span>
 <span class="s2">    PREFIX sulo: &lt;https://w3id.org/sulo/&gt;</span>
 <span class="s2">    PREFIX mie:  &lt;https://w3id.org/ontostart/mie/&gt;</span>
 <span class="s2">    PREFIX rdf:  &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;</span>
@@ -7770,18 +7795,6 @@ All BPMeasurement readings on Mary:
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Features of mary_specimen_feb25 — </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="si">}</span><span class="s2"> (feature, type) pairs</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">feature</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">feature</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">25s</span><span class="si">}</span><span class="s2"> type: </span><span class="si">{</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-<span class="c1"># Defined-class summary — Mary's specimen now belongs to two classification classes</span>
-<span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">default_world</span><span class="o">.</span><span class="n">sparql</span><span class="p">(</span><span class="s2">"""</span>
-<span class="s2">    PREFIX mie: &lt;https://w3id.org/ontostart/mie/&gt;</span>
-<span class="s2">    PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;</span>
-<span class="s2">    SELECT ?cls WHERE {</span>
-<span class="s2">        mie:mary_specimen_feb25 rdf:type ?cls .</span>
-<span class="s2">    }</span>
-<span class="s2">"""</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Classes Mary's specimen belongs to (asserted + inferred):"</span><span class="p">)</span>
-<span class="k">for</span> <span class="p">(</span><span class="bp">cls</span><span class="p">,)</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  - </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7797,11 +7810,46 @@ All BPMeasurement readings on Mary:
 <pre>Features of mary_specimen_feb25 — 4 (feature, type) pairs
 
   mary_tumour_grade         type: Grade2
-  mary_pr_status            type: PRPositive
   mary_her2_status          type: HER2Negative
   mary_er_status            type: ERPositive
-
-Classes Mary's specimen belongs to (asserted + inferred):
+  mary_pr_status            type: PRPositive
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ffcd97aa">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Q4b — which classes does Mary's specimen now belong to (asserted + inferred)?</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">default_world</span><span class="o">.</span><span class="n">sparql</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">    PREFIX mie: &lt;https://w3id.org/ontostart/mie/&gt;</span>
+<span class="s2">    PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;</span>
+<span class="s2">    SELECT ?cls WHERE {</span>
+<span class="s2">        mie:mary_specimen_feb25 rdf:type ?cls .</span>
+<span class="s2">    }</span>
+<span class="s2">"""</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Classes Mary's specimen belongs to (asserted + inferred):"</span><span class="p">)</span>
+<span class="k">for</span> <span class="p">(</span><span class="bp">cls</span><span class="p">,)</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  - </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Classes Mary's specimen belongs to (asserted + inferred):
   - NamedIndividual
   - TissueSpecimen
   - HormoneReceptorPositive
@@ -7811,7 +7859,7 @@ Classes Mary's specimen belongs to (asserted + inferred):
 </div>
 </div>
 </div>
-</div>
+</div></div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=nb06-q5-md">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -7823,15 +7871,15 @@ Classes Mary's specimen belongs to (asserted + inferred):
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=nb06-q5">
+</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9d870e1a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Find every role and quality of Mary — bridging via owl:sameAs in either direction</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Q5a — every role and quality of Mary, looked up via owl:sameAs in either direction</span>
 <span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">default_world</span><span class="o">.</span><span class="n">sparql</span><span class="p">(</span><span class="s2">"""</span>
 <span class="s2">    PREFIX sulo: &lt;https://w3id.org/sulo/&gt;</span>
 <span class="s2">    PREFIX mie:  &lt;https://w3id.org/ontostart/mie/&gt;</span>
@@ -7849,16 +7897,6 @@ Classes Mary's specimen belongs to (asserted + inferred):
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Roles &amp; qualities of FHIR Patient/12345 (via owl:sameAs join) — </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="si">}</span><span class="s2"> result(s)</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">role</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">role</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">25s</span><span class="si">}</span><span class="s2"> type: </span><span class="si">{</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-<span class="c1"># And the reverse direction — find FHIR's representation of Mary from her MIE URI</span>
-<span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">default_world</span><span class="o">.</span><span class="n">sparql</span><span class="p">(</span><span class="s2">"""</span>
-<span class="s2">    PREFIX owl: &lt;http://www.w3.org/2002/07/owl#&gt;</span>
-<span class="s2">    PREFIX mie: &lt;https://w3id.org/ontostart/mie/&gt;</span>
-<span class="s2">    SELECT ?ext WHERE { mie:mary owl:sameAs ?ext }</span>
-<span class="s2">"""</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">External-system URIs sameAs Mary:"</span><span class="p">)</span>
-<span class="k">for</span> <span class="p">(</span><span class="n">ext</span><span class="p">,)</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  - </span><span class="si">{</span><span class="n">ext</span><span class="o">.</span><span class="n">iri</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7875,15 +7913,48 @@ Classes Mary's specimen belongs to (asserted + inferred):
 
   mary_patient_role         type: PatientRole
   mary_systolic_bp          type: SystolicBloodPressure
-
-External-system URIs sameAs Mary:
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=52b81857">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Q5b — reverse direction: external URIs sameAs Mary</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">default_world</span><span class="o">.</span><span class="n">sparql</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">    PREFIX owl: &lt;http://www.w3.org/2002/07/owl#&gt;</span>
+<span class="s2">    PREFIX mie: &lt;https://w3id.org/ontostart/mie/&gt;</span>
+<span class="s2">    SELECT ?ext WHERE { mie:mary owl:sameAs ?ext }</span>
+<span class="s2">"""</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"External-system URIs sameAs Mary:"</span><span class="p">)</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">ext</span><span class="p">,)</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  - </span><span class="si">{</span><span class="n">ext</span><span class="o">.</span><span class="n">iri</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>External-system URIs sameAs Mary:
   - https://w3id.org/ontostart/mie/fhir_patient_12345
 </pre>
 </div>
 </div>
 </div>
 </div>
-</div>
+</div></div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=nb06-recap-md">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
