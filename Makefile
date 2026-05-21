@@ -17,6 +17,13 @@ define SCROLL_CSS
   transform: none !important;\
   display: block !important;\
 }\
+.reveal pre, .reveal pre code, .reveal .highlight pre {\
+  font-size: 0.8em !important; line-height: 1.35 !important;\
+}\
+.reveal .jp-OutputArea-output pre, .reveal .jp-RenderedText pre {\
+  font-size: 0.55em !important; line-height: 1.3 !important;\
+}\
+.reveal :not(pre) > code { font-size: 0.9em !important; }\
 </style>
 endef
 export SCROLL_CSS
