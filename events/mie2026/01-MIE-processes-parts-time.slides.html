@@ -7447,12 +7447,8 @@ main {
 <li>Express internal structure of a process via <code>sulo:hasDirectPart</code> with cardinality</li>
 <li>Anchor processes in time via <code>sulo:atTime</code> + <code>sulo:TimeInstant</code> / <code>StartTime</code> / <code>EndTime</code></li>
 <li>Order processes at the <strong>individual</strong> level via <code>sulo:precedes</code></li>
-<li>Recover the <em>transitive closure</em> of those orderings at <strong>query time</strong> with a SPARQL property path — without introducing any new property</li>
+<li>Recover the <em>transitive closure</em> of those orderings at <strong>query time</strong> with a SPARQL property path</li>
 </ol>
-<h2 id="What-we-will-not-do">What we will <em>not</em> do<a class="anchor-link" href="#What-we-will-not-do">¶</a></h2><ul>
-<li><strong>No class-level <code>precedes</code> axioms</strong> — they conjure anonymous witnesses and conflate empirical with normative ordering.</li>
-<li><strong>No new object or data properties.</strong> Only <code>sulo:hasDirectPart</code>, <code>sulo:atTime</code>, <code>sulo:hasValue</code>, and <code>sulo:precedes</code> are used. Transitive closure comes from SPARQL, not from a sub-property.</li>
-</ul>
 </div>
 </div>
 </div>
@@ -8226,12 +8222,17 @@ Inconsistent classes:  []
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="%C2%A77-%E2%80%94-Transitive-closure-via-SPARQL-property-path">§7 — Transitive closure via SPARQL property path<a class="anchor-link" href="#%C2%A77-%E2%80%94-Transitive-closure-via-SPARQL-property-path">¶</a></h2><p>SPARQL 1.1 property paths express path expressions at <em>query time</em>. The <code>+</code> operator means <em>one or more hops</em>. We bind the starting individual via owlready2's <code>??1</code> parameter and ask for everything reachable via one-or-more <code>sulo:precedes</code> hops.</p>
-<p>By summing the closure sizes we should obtain <code>8 + 7 + 6 + … + 1 + 0 = 36</code> derived pairs from <strong>8 asserted triples</strong> — a 4.5× pay-off from a single SPARQL query.</p>
+<h2 id="%C2%A77-%E2%80%94-Reasoning-about-chemotherapy-in-context-(SPARQL-property-paths)">§7 — Reasoning about chemotherapy in context (SPARQL property paths)<a class="anchor-link" href="#%C2%A77-%E2%80%94-Reasoning-about-chemotherapy-in-context-(SPARQL-property-paths)">¶</a></h2><p>We zoom in on <strong><code>mary_chemo_2026</code></strong> — the 14-week chemotherapy process — and ask the reasoner two questions, using SPARQL 1.1 property paths to traverse the <code>sulo:precedes</code> chain in both directions.</p>
+<ul>
+<li><code>^sulo:precedes+</code> — <em>what events preceded chemo, one or more hops back?</em>
+The <code>^</code> reverses the path; <code>+</code> is the one-or-more-hops operator. The asserted predecessor link is <code>mary_diag_mar01_confirmed precedes mary_chemo</code>; the closure follows the chain back to the very first visit.</li>
+<li><code>sulo:precedes+</code> — <em>what events followed chemo, one or more hops forward?</em></li>
+</ul>
+<p>A single SPARQL <code>+</code> expands one asserted predecessor link into the full reachable chain — without ever declaring <code>sulo:precedes</code> as a <code>TransitiveProperty</code> and without persisting any inferred triples in the graph.</p>
 </div>
 </div>
 </div>
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=nb01-sparql">
+</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=nb01-sparql-pred">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8239,19 +8240,15 @@ Inconsistent classes:  []
 <div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">"Forward closure of sulo:precedes (computed at query time):"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"-"</span> <span class="o">*</span> <span class="mi">72</span><span class="p">)</span>
-<span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">odyssey</span><span class="p">:</span>
-    <span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">default_world</span><span class="o">.</span><span class="n">sparql</span><span class="p">(</span><span class="s2">"""</span>
-<span class="s2">        PREFIX sulo: &lt;https://w3id.org/sulo/&gt;</span>
-<span class="s2">        SELECT ?b WHERE { ??1 sulo:precedes+ ?b }</span>
-<span class="s2">    """</span><span class="p">,</span> <span class="p">[</span><span class="n">e</span><span class="p">]))</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">({</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">})</span>
-    <span class="n">total</span> <span class="o">+=</span> <span class="n">n</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">35s</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> successors"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"-"</span> <span class="o">*</span> <span class="mi">72</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Total closure pairs: </span><span class="si">{</span><span class="n">total</span><span class="si">}</span><span class="s2">  (from </span><span class="si">{</span><span class="n">asserted</span><span class="si">}</span><span class="s2"> asserted triples)"</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Predecessors of chemotherapy — events reachable via ^sulo:precedes+</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">default_world</span><span class="o">.</span><span class="n">sparql</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">    PREFIX sulo: &lt;https://w3id.org/sulo/&gt;</span>
+<span class="s2">    SELECT ?before WHERE { ??1 ^sulo:precedes+ ?before }</span>
+<span class="s2">"""</span><span class="p">,</span> <span class="p">[</span><span class="n">mary_chemo</span><span class="p">]))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Events before </span><span class="si">{</span><span class="n">mary_chemo</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> — </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="si">}</span><span class="s2"> hop(s) back:"</span><span class="p">)</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">e</span><span class="p">,)</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  - </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8264,19 +8261,111 @@ Inconsistent classes:  []
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Forward closure of sulo:precedes (computed at query time):
-------------------------------------------------------------------------
-  mary_visit_feb18                    → 8 successors
-  mary_ultrasound_feb20               → 7 successors
-  mary_diag_feb22_preliminary         → 6 successors
-  mary_biopsy_feb25                   → 5 successors
-  mary_histo_mar01                    → 4 successors
-  mary_diag_mar01_confirmed           → 3 successors
-  mary_chemo_2026                     → 2 successors
-  mary_lumpectomy_jul01               → 1 successors
-  mary_followup_sep30                 → 0 successors
-------------------------------------------------------------------------
-Total closure pairs: 36  (from 8 asserted triples)
+<pre>Events before mary_chemo_2026 — 6 hop(s) back:
+  - mary_diag_mar01_confirmed
+  - mary_histo_mar01
+  - mary_biopsy_feb25
+  - mary_diag_feb22_preliminary
+  - mary_ultrasound_feb20
+  - mary_visit_feb18
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=nb01-sparql-succ">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Successors of chemotherapy — events reachable via sulo:precedes+</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">default_world</span><span class="o">.</span><span class="n">sparql</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">    PREFIX sulo: &lt;https://w3id.org/sulo/&gt;</span>
+<span class="s2">    SELECT ?after WHERE { ??1 sulo:precedes+ ?after }</span>
+<span class="s2">"""</span><span class="p">,</span> <span class="p">[</span><span class="n">mary_chemo</span><span class="p">]))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Events after </span><span class="si">{</span><span class="n">mary_chemo</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> — </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="si">}</span><span class="s2"> hop(s) forward:"</span><span class="p">)</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">e</span><span class="p">,)</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  - </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Events after mary_chemo_2026 — 2 hop(s) forward:
+  - mary_lumpectomy_jul01
+  - mary_followup_sep30
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div></div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=nb01-duration-md">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="%C2%A78-%E2%80%94-Computing-the-duration-of-chemotherapy">§8 — Computing the duration of chemotherapy<a class="anchor-link" href="#%C2%A78-%E2%80%94-Computing-the-duration-of-chemotherapy">¶</a></h2><p><code>sulo:StartTime</code> and <code>sulo:EndTime</code> are sub-classes of <code>sulo:TimeInstant</code>, each carrying a <code>sulo:hasValue</code> data property whose range is <code>xsd:dateTime</code>. Mary's chemo runs from <strong>2026-03-10 08:00 → 2026-06-15 17:00</strong>, attached to <code>mary_chemo_2026</code> via two <code>sulo:atTime</code> links.</p>
+<p>A single SPARQL query retrieves both timestamps; Python's <code>datetime</code> arithmetic then gives the duration in whatever unit the use case wants.</p>
+</div>
+</div>
+</div>
+</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=nb01-duration">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># One SPARQL query returns Mary's chemo start + end datetimes; Python does the arithmetic</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">default_world</span><span class="o">.</span><span class="n">sparql</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">    PREFIX sulo: &lt;https://w3id.org/sulo/&gt;</span>
+<span class="s2">    PREFIX rdf:  &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;</span>
+<span class="s2">    SELECT ?start ?end WHERE {</span>
+<span class="s2">        ??1 sulo:atTime ?ts , ?te .</span>
+<span class="s2">        ?ts rdf:type sulo:StartTime ; sulo:hasValue ?start .</span>
+<span class="s2">        ?te rdf:type sulo:EndTime   ; sulo:hasValue ?end .</span>
+<span class="s2">    }</span>
+<span class="s2">"""</span><span class="p">,</span> <span class="p">[</span><span class="n">mary_chemo</span><span class="p">]))</span>
+
+<span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">duration</span>  <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Chemotherapy:  </span><span class="si">{</span><span class="n">start</span><span class="si">}</span><span class="s2">  →  </span><span class="si">{</span><span class="n">end</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Duration:      </span><span class="si">{</span><span class="n">duration</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"               = </span><span class="si">{</span><span class="n">duration</span><span class="o">.</span><span class="n">days</span><span class="si">}</span><span class="s2"> days"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"               = </span><span class="si">{</span><span class="n">duration</span><span class="o">.</span><span class="n">days</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">7</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> weeks"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"               = </span><span class="si">{</span><span class="n">duration</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">3600</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> hours"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Chemotherapy:  2026-03-10 08:00:00  →  2026-06-15 17:00:00
+Duration:      97 days, 9:00:00
+               = 97 days
+               = 13.9 weeks
+               = 2337 hours
 </pre>
 </div>
 </div>
@@ -8289,7 +8378,7 @@ Total closure pairs: 36  (from 8 asserted triples)
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="%C2%A78-%E2%80%94-Save-the-checkpoint">§8 — Save the checkpoint<a class="anchor-link" href="#%C2%A78-%E2%80%94-Save-the-checkpoint">¶</a></h2><p>We save the ontology as <code>dist/mie-01.owl</code>. NB2 will reload this file and add the participating people, devices, and roles using the SULO Process-Role-Object pattern.</p>
+<h2 id="%C2%A79-%E2%80%94-Save-the-checkpoint">§9 — Save the checkpoint<a class="anchor-link" href="#%C2%A79-%E2%80%94-Save-the-checkpoint">¶</a></h2><p>We save the ontology as <code>dist/mie-01.owl</code>. NB2 will reload this file and add the participating people, devices, and roles using the SULO Process-Role-Object pattern.</p>
 </div>
 </div>
 </div>
@@ -8298,7 +8387,7 @@ Total closure pairs: 36  (from 8 asserted triples)
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [30]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s2">"dist"</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -8306,7 +8395,8 @@ Total closure pairs: 36  (from 8 asserted triples)
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Saved dist/mie-01.owl"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  classes:                   </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">mie</span><span class="o">.</span><span class="n">classes</span><span class="p">()))</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  individuals:               </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">mie</span><span class="o">.</span><span class="n">individuals</span><span class="p">()))</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  object properties (local): </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">mie</span><span class="o">.</span><span class="n">object_properties</span><span class="p">()))</span><span class="si">}</span><span class="s2">  ← still zero"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  object properties:         </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">mie</span><span class="o">.</span><span class="n">object_properties</span><span class="p">()))</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  data properties:           </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">mie</span><span class="o">.</span><span class="n">data_properties</span><span class="p">()))</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8322,7 +8412,8 @@ Total closure pairs: 36  (from 8 asserted triples)
 <pre>Saved dist/mie-01.owl
   classes:                   11
   individuals:               23
-  object properties (local): 0  ← still zero
+  object properties:         0
+  data properties:           0
 </pre>
 </div>
 </div>
