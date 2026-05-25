@@ -7533,8 +7533,8 @@ main {
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Reasoner ok:                  True
 Inconsistent classes:         []
-MIE classes:                  48
-MIE individuals:              66
+MIE classes:                  53
+MIE individuals:              67
 MIE object properties (local): 0  ← still zero
 </pre>
 </div>
@@ -7787,12 +7787,12 @@ MIE object properties (local): 0  ← still zero
 <span class="s2">    PREFIX rdf:  &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;</span>
 <span class="s2">    PREFIX owl:  &lt;http://www.w3.org/2002/07/owl#&gt;</span>
 <span class="s2">    SELECT ?feature ?type WHERE {</span>
-<span class="s2">        mie:mary_specimen_feb25 sulo:hasFeature ?feature .</span>
+<span class="s2">        mie:mary_tissue_feb25 sulo:hasFeature ?feature .</span>
 <span class="s2">        ?feature rdf:type ?type .</span>
 <span class="s2">        FILTER (?type != owl:NamedIndividual)</span>
 <span class="s2">    } ORDER BY ?feature</span>
 <span class="s2">"""</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Features of mary_specimen_feb25 — </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="si">}</span><span class="s2"> (feature, type) pairs</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Features of mary_tissue_feb25 — </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="si">}</span><span class="s2"> (feature, type) pairs</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">feature</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">feature</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">25s</span><span class="si">}</span><span class="s2"> type: </span><span class="si">{</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
@@ -7807,12 +7807,12 @@ MIE object properties (local): 0  ← still zero
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Features of mary_specimen_feb25 — 4 (feature, type) pairs
+<pre>Features of mary_tissue_feb25 — 4 (feature, type) pairs
 
   mary_tumour_grade         type: Grade2
-  mary_her2_status          type: HER2Negative
-  mary_er_status            type: ERPositive
   mary_pr_status            type: PRPositive
+  mary_er_status            type: ERPositive
+  mary_her2_status          type: HER2Negative
 </pre>
 </div>
 </div>
@@ -7831,7 +7831,7 @@ MIE object properties (local): 0  ← still zero
 <span class="s2">    PREFIX mie: &lt;https://w3id.org/ontostart/mie/&gt;</span>
 <span class="s2">    PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;</span>
 <span class="s2">    SELECT ?cls WHERE {</span>
-<span class="s2">        mie:mary_specimen_feb25 rdf:type ?cls .</span>
+<span class="s2">        mie:mary_tissue_feb25 rdf:type ?cls .</span>
 <span class="s2">    }</span>
 <span class="s2">"""</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Classes Mary's specimen belongs to (asserted + inferred):"</span><span class="p">)</span>
@@ -7851,7 +7851,7 @@ MIE object properties (local): 0  ← still zero
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Classes Mary's specimen belongs to (asserted + inferred):
   - NamedIndividual
-  - TissueSpecimen
+  - Tissue
   - HormoneReceptorPositive
   - IntermediateOrHighGradeTumour
 </pre>
@@ -7911,7 +7911,7 @@ MIE object properties (local): 0  ← still zero
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Roles &amp; qualities of FHIR Patient/12345 (via owl:sameAs join) — 2 result(s)
 
-  mary_patient_role         type: PatientRole
+  mary_patient_role         type: SubjectOfCareRole
   mary_systolic_bp          type: SystolicBloodPressure
 </pre>
 </div>
