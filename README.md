@@ -21,5 +21,13 @@ Notebooks: [`notebooks/pizza/`](notebooks/pizza/) — see the [Pizza Tutorial RE
 
 
 ### Clinical Data Modeling with SULO
-- Clinical Data Modeling with SULO at [MIE 2026](https://mie2026.efmi.org/). May 26, 2026.
+
+A clinical-domain tutorial built around *Mary's Clinical Odyssey* — a single breast-cancer patient journey from routine visit to remission. Each notebook formalises one scene from the timeline using SULO categories and the Participation Role Object (PRO) pattern, validates with HermiT, and verifies inferences with SPARQL.
+
+**Topics covered:** processes and temporal ordering, the PRO pattern for clinical participation, spatial objects and anatomical parts, qualities and quantities (with thresholds), information objects and identity, reasoning & SPARQL over the resulting ontology.
+
+Notebooks: [`notebooks/mie2026/`](notebooks/mie2026/)
+
+**Tutorials:**
+- [Clinical Ontology Engineering with SULO](https://maastrichtu-ids.github.io/sulo-tutorial/events/mie2026/) at [MIE 2026](https://mie2026.efmi.org/). May 26, 2026.
 - Clinical Data Modeling with SULO at [SWAT4HCLS 2026](https://www.swat4ls.org/). March 23, 2026.
