@@ -7521,7 +7521,7 @@ MIE object properties (local): 0  ← still zero
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="%C2%A71-%E2%80%94-Why-anatomy-now?">§1 — Why anatomy now?<a class="anchor-link" href="#%C2%A71-%E2%80%94-Why-anatomy-now?">¶</a></h2><p>The lumpectomy is a <em>transformation process</em>: a localised region of breast tissue is excised, and a surgical specimen comes into existence. Modelling that procedure with the PRO pattern (as we did the biopsy in NB2) will require us to type the <code>LocationRole</code> filler with anatomical precision — <em>where</em> in the breast the excision happens — and to type the <code>EmergingRole</code> filler as a fragment of that anatomy.</p>
-<p>More fundamentally, anatomy is what makes a breast <em>be</em> a breast. A breast is not simply a <code>sulo:SpatialObject</code> with the label "breast" — it is a particular <em>composition</em> of tissue kinds, in particular cardinal relationships. If we want the reasoner to recognise breasts by their structure (rather than by an unverifiable label), we must make that composition explicit. This is the same lesson the SULO Pizza tutorial teaches with <code>FourCheesePizza</code>: classification follows from the parts.</p>
+<p>More fundamentally, anatomy is what makes a breast <em>be</em> a breast. A breast is not simply a <code>sulo:SpatialObject</code> with the label "breast" — it is a particular <em>composition</em> of tissue kinds, in particular cardinal relationships. If we want the reasoner to recognise breasts by their structure (rather than by an unverifiable label), we must make that composition explicit.</p>
 </div>
 </div>
 </div>
@@ -7691,7 +7691,7 @@ MIE object properties (local): 0  ← still zero
 </li>
 </ul>
 <p>With this split, classification fires from the existentials (no OWA problem), and the cardinality and universal closure act on already-classified individuals to <em>constrain</em> what they can have as parts. The reasoner gets both.</p>
-<p>This is the same pattern used in the SULO Pizza tutorial for <code>FourCheesePizza</code> and elsewhere in OWL practice: <strong>existentials drive classification; cardinality and universals constrain it.</strong></p>
+<p>In OWL practice: <strong>existentials drive classification; cardinality and universals constrain it.</strong></p>
 </div>
 </div>
 </div>

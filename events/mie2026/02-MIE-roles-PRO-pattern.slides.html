@@ -7697,8 +7697,8 @@ MIE object properties (local): 0  ← still zero
 <h2 id="%C2%A74-%E2%80%94-Specialising-PRO-roles-for-clinical-use">§4 — Specialising PRO roles for clinical use<a class="anchor-link" href="#%C2%A74-%E2%80%94-Specialising-PRO-roles-for-clinical-use">¶</a></h2><p>PRO's role taxonomy (<code>PatientRole</code>, <code>AgentRole</code>, <code>InstrumentRole</code>, …) is upper-level — it answers <em>what kind of participation</em>. For a clinical ontology we want a more domain-specific vocabulary that names the same roles in their clinical guise.</p>
 <p>Two sub-classes are enough to make the pattern visible:</p>
 <ul>
-<li><code>SubjectOfCareRole</code> <code>SubClassOf:</code> <code>pro:PatientRole</code> — the patient as a subject undergoing diagnostic or therapeutic care.</li>
-<li><code>CareProviderRole</code> <code>SubClassOf:</code> <code>pro:AgentRole</code>   — a clinician (physician, nurse, allied professional) who plans or executes the procedure.</li>
+<li><code>SubjectOfCareRole</code> <code>SubClassOf</code> <code>pro:PatientRole</code> — the patient as a subject undergoing diagnostic or therapeutic care.</li>
+<li><code>CareProviderRole</code> <code>SubClassOf</code> <code>pro:AgentRole</code>   — a clinician (physician, nurse, allied professional) who plans or executes the procedure.</li>
 </ul>
 <p>The MIE-specific names sit <em>under</em> the PRO names, so any restriction over <code>pro:PatientRole</code> is automatically satisfied by an individual typed <code>SubjectOfCareRole</code>. The specialisation buys clinical legibility without breaking the upper-level commitments — and any subsequent reasoning step that targets the PRO names still picks up the MIE-specialised individuals through standard sub-class inference.</p>
 </div>

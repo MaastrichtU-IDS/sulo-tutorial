@@ -341,33 +341,42 @@ bullet_box(slide, [
 # SLIDE 7 — Notebook structure
 # ══════════════════════════════════════════════════════════════════════════════
 slide = prs.slides.add_slide(blank_layout)
-header_bar(slide, "Tutorial Structure", "Seven Jupyter notebooks, ~190 min content")
+header_bar(slide, "Tutorial Schedule",
+           "Seven notebooks · 3:00 pm – 6:00 pm · coffee break 4:30 – 5:00")
 accent_bar(slide)
 
-# 7-row table-like layout
+# (tag, title, start, mins, constructs, colour) — break rows have tag=None
 rows = [
-    ("NB1", "Processes, parts, time, ordering",      "40", "Process, Time | SubClass, cardinality, SPARQL +/*", DARK_BLUE),
-    ("NB2", "Roles & the PRO pattern",               "30", "Role | Nested existentials, defined class",         MID_BLUE),
-    ("NB3", "Spatial objects & their parts",          "25", "SpatialObject | AllDisjoint, only, split definition", TEAL),
-    ("NB4", "Qualities, quantities, thresholds",     "30", "Quality, Quantity, Unit | ConstrainedDatatype, union", ORANGE),
-    ("NB5", "Connections (containment, info, identity)", "30", "InformationObject, Collection | value restriction, AllDifferent, sameAs", RGBColor(0x8B, 0x3E, 0xA1)),
-    ("NB6", "Reasoning & SPARQL",                    "20", "(queries only) | property paths, UNION, COUNT DISTINCT", MID_BLUE),
-    ("NB7", "FAIR publishing",                       "15", "(packaging) | versionIRI, dc/dcterms/vann/pav/dcat/mod",  TEAL),
+    ("·",   "Introduction to the tutorial & SULO",         "15:00", "15", "What we'll build · Mary's odyssey · SULO postcard tour", DARK_BLUE),
+    ("NB1", "Processes, parts, time, ordering",            "15:15", "25", "Process, Time | SubClass, cardinality, SPARQL +/*", DARK_BLUE),
+    ("NB2", "Roles & the PRO pattern",                     "15:40", "25", "Role | Nested existentials, defined class",         MID_BLUE),
+    ("NB3", "Spatial objects & their parts",               "16:05", "25", "SpatialObject | AllDisjoint, only, split definition", TEAL),
+    (None,  "☕  Coffee break",                             "16:30", "30", "",                                                      ORANGE),
+    ("NB4", "Qualities, quantities, thresholds",           "17:00", "20", "Quality, Quantity, Unit | ConstrainedDatatype, union", ORANGE),
+    ("NB5", "Connections (containment, info, identity)",   "17:20", "20", "InformationObject, Collection | value restriction, AllDifferent, sameAs", RGBColor(0x8B, 0x3E, 0xA1)),
+    ("NB6", "Reasoning & SPARQL",                          "17:40", "20", "(queries only) | property paths, UNION, COUNT DISTINCT", MID_BLUE),
 ]
-y = Inches(1.55)
-row_h = Inches(0.75)
-for tag, title, mins, constructs, col in rows:
+y = Inches(1.45)
+row_h = Inches(0.66)
+for tag, title, start, mins, constructs, col in rows:
+    is_break = tag is None
     filled_rect(slide, Inches(0.4), y, Inches(0.85), row_h, col)
-    filled_rect(slide, Inches(1.3), y, Inches(11.6), row_h, LIGHT_GREY)
-    txbox(slide, tag,  Inches(0.45), y + Inches(0.18), Inches(0.8), Inches(0.4),
-          size=18, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
-    txbox(slide, title, Inches(1.45), y + Inches(0.05), Inches(6.3), Inches(0.35),
+    filled_rect(slide, Inches(1.3), y, Inches(11.6), row_h,
+                PALE_ORANGE if is_break else LIGHT_GREY)
+    if not is_break:
+        txbox(slide, tag, Inches(0.45), y + Inches(0.15), Inches(0.8), Inches(0.4),
+              size=16, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+    txbox(slide, title,
+          Inches(1.45), y + (Inches(0.18) if is_break else Inches(0.04)),
+          Inches(6.3), Inches(0.36),
           size=14, bold=True, color=DARK_GREY)
-    txbox(slide, constructs, Inches(1.45), y + Inches(0.38), Inches(9.0), Inches(0.35),
-          size=11, color=MID_GREY, italic=True)
-    txbox(slide, f"{mins} min", Inches(11.0), y + Inches(0.18), Inches(1.6), Inches(0.4),
-          size=13, bold=True, color=col, align=PP_ALIGN.RIGHT)
-    y += row_h + Inches(0.05)
+    if not is_break:
+        txbox(slide, constructs, Inches(1.45), y + Inches(0.36), Inches(8.4), Inches(0.32),
+              size=10, color=MID_GREY, italic=True)
+    txbox(slide, f"{start}  ·  {mins} min",
+          Inches(9.85), y + Inches(0.17), Inches(3.0), Inches(0.4),
+          size=12, bold=True, color=col, align=PP_ALIGN.RIGHT)
+    y += row_h + Inches(0.04)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -508,45 +517,7 @@ bullet_box(slide, [
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# SLIDE 11 — Schedule
-# ══════════════════════════════════════════════════════════════════════════════
-slide = prs.slides.add_slide(blank_layout)
-header_bar(slide, "Schedule",
-           "Half-day tutorial — 4 hours including intro, break, and Q&A")
-accent_bar(slide)
-
-schedule = [
-    ("0:00",  "Welcome + tutorial overview",           "15 min", DARK_BLUE),
-    ("0:15",  "SULO postcard tour & environment setup", "10 min", DARK_BLUE),
-    ("0:25",  "NB1 — Processes, parts, time, ordering", "40 min", MID_BLUE),
-    ("1:05",  "NB2 — Roles & the PRO pattern",          "30 min", MID_BLUE),
-    ("1:35",  "NB3 — Spatial objects & their parts",    "25 min", TEAL),
-    ("2:00",  "**Break**",                              "15 min", ORANGE),
-    ("2:15",  "NB4 — Qualities, quantities, thresholds","30 min", TEAL),
-    ("2:45",  "NB5 — Connections",                       "30 min", MID_BLUE),
-    ("3:15",  "NB6 — Reasoning & SPARQL",                "20 min", MID_BLUE),
-    ("3:35",  "NB7 — FAIR publishing",                   "15 min", DARK_BLUE),
-    ("3:50",  "Q&A and wrap-up",                         "10 min", DARK_BLUE),
-]
-y = Inches(1.5)
-for time, activity, dur, col in schedule:
-    filled_rect(slide, Inches(0.5), y, Inches(0.95), Inches(0.45), col)
-    txbox(slide, time, Inches(0.5), y + Inches(0.08), Inches(0.95), Inches(0.3),
-          size=12, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
-    is_break = "Break" in activity
-    fill = PALE_ORANGE if is_break else LIGHT_GREY
-    filled_rect(slide, Inches(1.5), y, Inches(9.0), Inches(0.45), fill)
-    activity_clean = activity.replace("**", "")
-    txbox(slide, activity_clean, Inches(1.65), y + Inches(0.08), Inches(8.7), Inches(0.3),
-          size=13, bold=is_break, color=DARK_GREY)
-    filled_rect(slide, Inches(10.55), y, Inches(2.3), Inches(0.45), fill)
-    txbox(slide, dur, Inches(10.65), y + Inches(0.08), Inches(2.1), Inches(0.3),
-          size=12, color=MID_GREY, align=PP_ALIGN.CENTER)
-    y += Inches(0.5)
-
-
-# ══════════════════════════════════════════════════════════════════════════════
-# SLIDE 12 — Speakers & Resources
+# SLIDE 11 — Speakers & Resources
 # ══════════════════════════════════════════════════════════════════════════════
 slide = prs.slides.add_slide(blank_layout)
 filled_rect(slide, 0, 0, SLIDE_W, SLIDE_H, DARK_BLUE)
